@@ -133,11 +133,11 @@
   <div class="wrap">
     <div class="card">
       <h1>Student Attendance System</h1>
-      <p class="muted">Please allow location. Your GPS is used only to verify you are on campus.</p>
+      <p class="muted">Please enable location. Location access is limited to campus verification only.</p>
 
       <form onsubmit="return false;">
         <label for="studentId">Student ID</label>
-        <input id="studentId" inputmode="numeric" pattern="[0-9]*" placeholder="e.g. 13579666" required autofocus />
+        <input id="studentId" inputmode="numeric" pattern="[0-9]*" placeholder="e.g. 13579666 - as per your Axcelerate profile" required autofocus />
 
         <label for="name">Full Name</label>
         <input id="name" placeholder="e.g. Wilson So" required />
@@ -185,7 +185,7 @@
       </div>
 
       <div id="msg" class="msg"></div>
-      <div class="footer">© NIET Attendance</div>
+      <div class="footer">© Attendance Monitoring by NIET Group</div>
     </div>
   </div>
 
@@ -447,7 +447,7 @@ async function submitCheckIn(){
   elMsg.style.display='none';
   
   if(!ID_REGEX.test(id)){setMsg('Please enter a valid Student ID.','warn');return;}
-  if(!gpsReady||latestLat===null||latestLng===null){setMsg('Location not ready. Try again.','warn');startGPS();return;}
+  if(!gpsReady||latestLat===null||latestLng===null){setMsg('Kindly ensure your location is enabled. Try again.','warn');startGPS();return;}
   if(!detectedCampus){setMsg('You are not on campus.','err');return;}
   if(activeSession){setMsg('⚠️ You already have an active session. Please check out first.','warn');return;}
 
@@ -489,7 +489,7 @@ async function submitCheckIn(){
       showSessionInfo();
       startTimer();
       updateButtonStates();
-      setMsg('✅ Checked in successfully! Timer started.','ok');
+      setMsg('✅ Checked in successfully! Class time started.','ok');
     }else{
       setMsg('❌ '+(data.message||`Check-in failed (${res.status}).`),'err');
     }
@@ -510,7 +510,7 @@ async function submitCheckOut(){
   const course=elCourse.value;
   
   if(!activeSession){
-    setMsg('❌ No active session. Please check in first.','err');
+    setMsg('❌ No active session found. Please check in first.','err');
     return;
   }
   
@@ -565,7 +565,7 @@ async function submitCheckOut(){
     const data=await res.json().catch(()=>({}));
     
     if(res.ok){
-      setMsg(`Checked out successfully! Total time checked in: ${hours}h ${minutes}m`,'ok');
+      setMsg(`Checked out successfully! Total class time checked in: ${hours}h ${minutes}m`,'ok');
       clearActiveSession();
       hideSessionInfo();
       
