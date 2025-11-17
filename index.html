@@ -4,44 +4,61 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Student Check-In/Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --brand:#704E9A;
-    --brand-dark:#5c3c81;
+    --brand:#2D1B4E;
+    --brand-dark:#1F132F;
+    --brand-light:#3D2B5E;
+    --accent-gold:#D4AF37;
     --ok:#118a0a; --warn:#d97706; --err:#b91c1c;
     --checkout:#dc2626; --checkout-dark:#b91c1c;
   }
-  *{box-sizing:border-box;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial;}
+  *{box-sizing:border-box;}
   body{
     margin:0;color:#111;
-    background:linear-gradient(135deg,#704E9A 0%,#5563DE 100%);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    background:linear-gradient(135deg,#2D1B4E 0%,#3D2B5E 100%);
     min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;
   }
   .wrap{width:100%;max-width:600px;}
   .card{
     background:#fff;border-radius:20px;padding:40px 28px;
-    box-shadow:0 18px 40px rgba(0,0,0,.15);
+    box-shadow:0 18px 40px rgba(0,0,0,.25);
+    border-top:4px solid var(--accent-gold);
   }
   h1{
-    margin:0 0 14px;font-size:28px;text-align:center;
-    background:linear-gradient(90deg,#704E9A,#5563DE);
+    margin:0 0 14px;font-size:32px;text-align:center;
+    background:linear-gradient(90deg,#2D1B4E,#3D2B5E);
     -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    font-family:'Playfair Display',Georgia,serif;
     font-weight:800;
+    letter-spacing:1px;
   }
   .muted{color:#555;font-size:14px;margin:0 0 20px;text-align:center;}
-  label{display:block;margin:14px 0 8px;font-weight:600;}
+  label{
+    display:block;margin:14px 0 8px;
+    font-weight:600;
+    color:#2D1B4E;
+    font-family:'Playfair Display',Georgia,serif;
+    font-size:15px;
+  }
   input,select,button{
     width:100%;padding:14px 16px;border:1px solid #d8dee9;border-radius:12px;background:#fff;font-size:16px;
   }
   input:focus,select:focus{
     outline:none;border-color:var(--brand);
-    box-shadow:0 0 0 4px rgba(112,78,154,.10);
+    box-shadow:0 0 0 4px rgba(45,27,78,.12);
   }
   button{
     border:none;font-weight:700;cursor:pointer;
     transition:all .2s ease;font-size:16px;padding:14px;
+    font-family:'Playfair Display',Georgia,serif;
+    letter-spacing:0.5px;
   }
-  button[disabled]{background:#d5cce3;cursor:not-allowed;color:#fff;}
+  button[disabled]{background:#c4b8d3;cursor:not-allowed;color:#fff;}
   
   /* Button Row Container */
   .button-row{
@@ -59,7 +76,7 @@
   .btn-checkin:hover:not([disabled]){
     background:var(--brand-dark);
     transform:translateY(-2px);
-    box-shadow:0 4px 12px rgba(112,78,154,.3);
+    box-shadow:0 4px 12px rgba(45,27,78,.4);
   }
   
   /* Check Out Button */
@@ -79,7 +96,14 @@
   .msg.warn{display:block;background:#fffbeb;color:var(--warn);border:1px solid #fde68a;}
   .msg.err{display:block;background:#fef2f2;color:var(--err);border:1px solid #fecaca;}
   .msg.info{display:block;background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe;}
-  .footer{text-align:center;margin-top:18px;color:#6b7280;font-size:12px;}
+  .footer{
+    text-align:center;
+    margin-top:18px;
+    color:#6b7280;
+    font-size:12px;
+    font-family:'Playfair Display',Georgia,serif;
+    letter-spacing:0.5px;
+  }
   
   /* Session Info Display */
   .session-info{
@@ -88,6 +112,7 @@
     padding:16px;
     margin-top:16px;
     display:none;
+    border-left:4px solid var(--accent-gold);
   }
   .session-info.active{display:block;}
   .session-header{
@@ -98,17 +123,19 @@
     display:flex;
     align-items:center;
     gap:8px;
+    font-family:'Playfair Display',Georgia,serif;
   }
   .status-badge{
     display:inline-block;
-    background:#22c55e;
-    color:#fff;
+    background:var(--accent-gold);
+    color:#2D1B4E;
     padding:4px 10px;
     border-radius:12px;
     font-size:11px;
     font-weight:700;
     text-transform:uppercase;
     letter-spacing:0.5px;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
   }
   .session-row{
     display:flex;
@@ -117,7 +144,11 @@
     font-size:14px;
   }
   .session-label{color:#6b7280;}
-  .session-value{font-weight:600;color:#111;}
+  .session-value{
+    font-weight:600;
+    color:#2D1B4E;
+    font-family:'Playfair Display',Georgia,serif;
+  }
   .time-display{
     text-align:center;
     font-size:36px;
@@ -126,17 +157,18 @@
     margin:12px 0;
     font-variant-numeric:tabular-nums;
     letter-spacing:-1px;
+    font-family:'Playfair Display',Georgia,serif;
   }
 </style>
 </head>
 <body>
   <div class="wrap">
     <div class="card">
-      <h1>Student Attendance System</h1>
+      <h1>Attendance Monitoring</h1>
       <p class="muted">Please enable location. Location access is limited to campus verification only.</p>
 
       <form onsubmit="return false;">
-        <label for="studentId">Student ID</label>
+        <label for="studentId">Contact ID</label>
         <input id="studentId" inputmode="numeric" pattern="[0-9]*" placeholder="e.g. 13579666 - as per your Axcelerate profile" required autofocus />
 
         <label for="name">Full Name</label>
@@ -197,7 +229,9 @@ const ID_REGEX = /^[0-9]{8,}$/;
 
 /* All available courses */
 const ALL_COURSES = [
+  "BSB30120 Certificate III in Business",
   "BSB40120 Certificate IV in Business",
+  "BSB50120 Diploma of Business",
   "BSB50120 Diploma of Business UniTrack",
   "BSB50420 Diploma of Leadership and Management",
   "BSB80120 Graduate Diploma of Management (Learning) UniTrack",
@@ -218,46 +252,102 @@ const ALL_COURSES = [
 /* Trainers and their courses */
 const TRAINER_COURSES = {
   "Carlos Castellano": ["SIT30821 Certificate III in Commercial Cookery"],
-  "Richard LIM": ["BSB80120 Graduate Diploma of Management (Learning) UniTrack"],
-  "Toriqul Mozumder": ["CHC33021 Certificate III in Individual Support", "CHC52021 Diploma of Community Services"],
-  "Carol Ly": ["CHC43015 Certificate IV in Ageing Support"],
-  "Marc Bishop": ["SIT40521 Certificate IV in Kitchen Management"],
-  "Matthew Facey": ["BSB50420 Diploma of Leadership and Management"],
-  "Ruying Shao": ["SIT50422 Diploma of Hospitality Management"],
-  "Sherwin Thiarhia": ["CHC33021 Certificate III in Individual Support", "CHC43015 Certificate IV in Ageing Support"],
-  "John Black": ["SIT30821 Certificate III in Commercial Cookery", "SIT40521 Certificate IV in Kitchen Management"],
-  "John Owen": ["SIT50422 Diploma of Hospitality Management"],
-  "Nicole Hicks": ["CHC30121 Certificate III in Early Childhood Education and Care", "CHC50121 Diploma of Early Childhood Education and Care"],
-  "Niral Joshi": ["BSB50120 Diploma of Business UniTrack", "BSB80120 Graduate Diploma of Management (Learning) UniTrack"],
-  "Tanya Caterson": ["SIT30821 Certificate III in Commercial Cookery"],
-  "Zeyun Kylie MA": ["BSB50420 Diploma of Leadership and Management"],
-  "Fei Yu": ["CHC50121 Diploma of Early Childhood Education and Care"],
-  "Chloe BIAN": ["CHC50121 Diploma of Early Childhood Education and Care", "CHC30121 Certificate III in Early Childhood Education and Care"],
+  "Carol Ly": ["CHC43015 Certificate IV in Ageing Support", "CHC52021 Diploma of Community Services"],
+  "Chloe BIAN": ["CHC30121 Certificate III in Early Childhood Education and Care", "CHC50121 Diploma of Early Childhood Education and Care"],
   "Edwin Zywko-Hicks": ["BSB80120 Graduate Diploma of Management (Learning) UniTrack"],
+  "Fei Yu": ["CHC50121 Diploma of Early Childhood Education and Care"],
   "Gunther Zywko-Hicks": ["SIT50422 Diploma of Hospitality Management"],
   "Jan Cisler": ["HLT52021 Diploma of Remedial Massage"],
+  "John Black": ["SIT30821 Certificate III in Commercial Cookery", "SIT40521 Certificate IV in Kitchen Management"],
+  "John Owen": ["SIT50422 Diploma of Hospitality Management"],
+  "Laurent Le Souquet": ["SIT30821 Certificate III in Commercial Cookery"],
   "Li Tang": ["CHC30121 Certificate III in Early Childhood Education and Care"],
-  "Marty Gray": ["BSB50120 Diploma of Business UniTrack", "BSB50420 Diploma of Leadership and Management", "BSB80120 Graduate Diploma of Management (Learning) UniTrack"],
+  "Lily YE": ["BSB40120 Certificate IV in Business"],
+  "Marc Bishop": ["SIT40521 Certificate IV in Kitchen Management"],
+  "Marty Gray": ["BSB30120 Certificate III in Business", "BSB40120 Certificate IV in Business", "BSB50120 Diploma of Business", "BSB50420 Diploma of Leadership and Management", "BSB80120 Graduate Diploma of Management (Learning) UniTrack"],
+  "Mathew Little": ["BSB50420 Diploma of Leadership and Management"],
+  "Matthew Facey": ["BSB50420 Diploma of Leadership and Management"],
+  "Nicole Hicks/Nati": ["CHC30121 Certificate III in Early Childhood Education and Care", "CHC50121 Diploma of Early Childhood Education and Care"],
+  "Niral Joshi": ["BSB50120 Diploma of Business UniTrack", "BSB80120 Graduate Diploma of Management (Learning) UniTrack"],
   "Pelin Tatlidil": ["ICT50220 Diploma of Information Technology"],
-  "Ranimary": ["CHC52021 Diploma of Community Services"],
+  "Peter NG": ["RII60520 Advanced Diploma of Civil Construction"],
+  "Richard LIM": ["BSB30120 Certificate III in Business", "BSB80120 Graduate Diploma of Management (Learning) UniTrack"],
   "Robert Sauer": ["SIT30821 Certificate III in Commercial Cookery", "SIT40521 Certificate IV in Kitchen Management"],
   "Rona": ["SIT30821 Certificate III in Commercial Cookery", "SIT40521 Certificate IV in Kitchen Management"],
-  "Peter Ng": ["RII60520 Advanced Diploma of Civil Construction"]
+  "Ruying Shao": ["SIT50422 Diploma of Hospitality Management"],
+  "Sherwin Thiarhia": ["CHC33021 Certificate III in Individual Support", "CHC43015 Certificate IV in Ageing Support"],
+  "Tanya Caterson": ["SIT30821 Certificate III in Commercial Cookery"],
+  "Toriqul Mozumder": ["CHC33021 Certificate III in Individual Support", "CHC52021 Diploma of Community Services"]
 };
 
-/* Default if trainer not listed */
-const OTHER_TRAINERS = ["Lily YE","Nati","Peter NG"];
-OTHER_TRAINERS.forEach(t=>TRAINER_COURSES[t]=ALL_COURSES);
-
-/* Campus zones */
-const CAMPUS_ZONES = [
-  { name:"Brisbane Campus 102 Adelaide Street", lat:-27.468069512085428, lng:153.02471942376695, radius:300 },
-  { name:"Brisbane Campus 316 Adelaide Street", lat:-27.465055267670685, lng:153.02871827605486, radius:300 },
-  { name:"Gold Coast Campus", lat:-27.945401908916576, lng:153.41147360207012, radius:300 },
-  { name:"Hobart Campus", lat:-42.884889723708625, lng:147.32545454150238, radius:300 }
+/* Campus boundaries */
+const campuses = [
+  {
+    name:"Level 1, Shop 12, Centro Bankstown, 23-25 Rickard Rd, Bankstown NSW 2200 NIET Group",
+    coords:{lat:-33.9187,lng:151.0357},
+    radius:0.15
+  },
+  {
+    name:"Suite 302A/189 Thomas Street, Haymarket, NSW 2000 NIET Group",
+    coords:{lat:-33.8805,lng:151.2040},
+    radius:0.15
+  },
+  {
+    name:"Suite 103, Level 1, 650 George Street, Sydney NSW 2000 NIET Group",
+    coords:{lat:-33.8745,lng:151.2069},
+    radius:0.15
+  },
+  {
+    name:"Suite 1, Lvl 1, 303-305 Pitt St, Sydney NSW 2000 NIET Group",
+    coords:{lat:-33.8696,lng:151.2091},
+    radius:0.15
+  }
 ];
 
-/* ELEMENTS */
+/* GPS */
+let gpsReady=false,latestLat=null,latestLng=null,detectedCampus=null,activeSession=null,timerInterval=null;
+
+function haversine(lat1,lon1,lat2,lon2){
+  const toRad=x=>x*Math.PI/180;
+  const R=6371;
+  const dLat=toRad(lat2-lat1),dLon=toRad(lon2-lon1);
+  const a=Math.sin(dLat/2)**2+Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLon/2)**2;
+  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+}
+
+function onGPSSuccess(pos){
+  latestLat=pos.coords.latitude;
+  latestLng=pos.coords.longitude;
+  gpsReady=true;
+  
+  detectedCampus=null;
+  for(let c of campuses){
+    const d=haversine(latestLat,latestLng,c.coords.lat,c.coords.lng);
+    if(d<=c.radius){detectedCampus=c;break;}
+  }
+  
+  updateButtonStates();
+}
+
+function onGPSError(err){
+  gpsReady=false;
+  updateButtonStates();
+  if(err.code===1) setMsg('Location access denied. Please enable location.','err');
+}
+
+function startGPS(){
+  if(!navigator.geolocation){
+    setMsg('Your device does not support location services.','err');
+    return;
+  }
+  navigator.geolocation.watchPosition(onGPSSuccess,onGPSError,{
+    enableHighAccuracy:true,
+    timeout:10000,
+    maximumAge:5000
+  });
+}
+
+/* UI */
 const elId=document.getElementById('studentId');
 const elName=document.getElementById('name');
 const elTrainer=document.getElementById('trainer');
@@ -266,97 +356,56 @@ const elBtnCheckIn=document.getElementById('btnCheckIn');
 const elBtnCheckOut=document.getElementById('btnCheckOut');
 const elMsg=document.getElementById('msg');
 const elSessionInfo=document.getElementById('sessionInfo');
-const elSessionCampus=document.getElementById('sessionCampus');
 const elSessionCheckIn=document.getElementById('sessionCheckIn');
+const elSessionCampus=document.getElementById('sessionCampus');
 const elTimeElapsed=document.getElementById('timeElapsed');
 
-/* Session state */
-let activeSession = null;
-let timerInterval = null;
-
-/* Populate trainers */
-(function initDropdowns(){
-  Object.keys(TRAINER_COURSES).forEach(t=>{
-    const o=document.createElement('option');o.value=t;o.textContent=t;elTrainer.appendChild(o);
-  });
-})();
-
-elTrainer.addEventListener('change',()=>{
-  const courses = TRAINER_COURSES[elTrainer.value] || ALL_COURSES;
-  elCourse.innerHTML="";
-  ["— Select course —",...courses].forEach((c,i)=>{
-    const o=document.createElement('option');o.value=i?c:"";o.textContent=c;elCourse.appendChild(o);
-  });
-});
-
-/* GPS */
-let latestLat=null,latestLng=null,gpsReady=false,detectedCampus=null;
-
-function distanceMeters(lat1,lng1,lat2,lng2){
-  const toRad=x=>x*Math.PI/180;
-  const x=(toRad(lng2-lng1))*Math.cos(toRad((lat1+lat2)/2));
-  const y=toRad(lat2-lat1);
-  return Math.sqrt(x*x+y*y)*6371000;
-}
-
-function detectCampus(lat,lng){
-  let best=null;
-  for(const c of CAMPUS_ZONES){
-    const d=distanceMeters(lat,lng,c.lat,c.lng);
-    if(d<=c.radius && (!best||d<best.d))best={...c,d};
-  }
-  return best;
+function setMsg(txt,cls){
+  elMsg.textContent=txt;
+  elMsg.className='msg '+cls;
 }
 
 function updateButtonStates(){
-  const formValid = elId.value.trim() && 
-                    elName.value.trim() && 
-                    elTrainer.value && 
-                    elCourse.value && 
-                    ID_REGEX.test(elId.value.trim());
+  const formValid = elId.value.trim() && elName.value.trim() && elTrainer.value && elCourse.value;
+  const locationOk = gpsReady && detectedCampus;
   
-  // Check In button: enabled when form valid, GPS ready, and NO active session
-  elBtnCheckIn.disabled = !(formValid && gpsReady && !activeSession);
+  if(activeSession){
+    elBtnCheckIn.disabled = true;
+    elBtnCheckOut.disabled = !formValid || !gpsReady;
+  }else{
+    elBtnCheckIn.disabled = !formValid || !locationOk;
+    elBtnCheckOut.disabled = true;
+  }
+}
+
+/* Populate trainers */
+const trainers = Object.keys(TRAINER_COURSES).sort();
+trainers.forEach(t => {
+  const opt = document.createElement('option');
+  opt.value = t;
+  opt.textContent = t;
+  elTrainer.appendChild(opt);
+});
+
+elTrainer.addEventListener('change', () => {
+  const selected = elTrainer.value;
+  elCourse.innerHTML = '<option value="">— Select course —</option>';
   
-  // Check Out button: enabled when form valid, GPS ready, and HAS active session
-  elBtnCheckOut.disabled = !(formValid && gpsReady && activeSession);
-}
+  if(selected && TRAINER_COURSES[selected]){
+    TRAINER_COURSES[selected].forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c;
+      opt.textContent = c;
+      elCourse.appendChild(opt);
+    });
+  }
+  
+  updateButtonStates();
+});
 
-['input','change'].forEach(evt=>[elId,elName,elTrainer,elCourse].forEach(el=>el.addEventListener(evt,updateButtonStates)));
-
-function startGPS(){
-  if(!('geolocation'in navigator)){setMsg('Your device does not support GPS.','err');return;}
-  navigator.geolocation.getCurrentPosition(
-    pos=>{
-      latestLat=pos.coords.latitude;latestLng=pos.coords.longitude;
-      detectedCampus=detectCampus(latestLat,latestLng);
-      if(!detectedCampus){
-        gpsReady=false;
-        updateButtonStates();
-        setMsg('❌ You are not within any campus area.','err');
-        return;
-      }
-      gpsReady=true;
-      updateButtonStates();
-      if(!activeSession){
-        setMsg('✓ Location enabled. You can now check in.','ok');
-      }
-    },
-    err=>{
-      gpsReady=false;
-      updateButtonStates();
-      setMsg('Location permission is required.','warn');
-    },
-    {enableHighAccuracy:true,timeout:15000,maximumAge:0}
-  );
-}
-
-/* Message display */
-function setMsg(text,kind){
-  elMsg.className='msg '+(kind||'ok');
-  elMsg.textContent=text;
-  elMsg.style.display='block';
-}
+elId.addEventListener('input', updateButtonStates);
+elName.addEventListener('input', updateButtonStates);
+elCourse.addEventListener('change', updateButtonStates);
 
 /* Session Management */
 function loadActiveSession(){
@@ -445,7 +494,7 @@ async function submitCheckIn(){
   
   elMsg.style.display='none';
   
-  if(!ID_REGEX.test(id)){setMsg('Please enter a valid Student ID.','warn');return;}
+  if(!ID_REGEX.test(id)){setMsg('Please enter a valid Contact ID.','warn');return;}
   if(!gpsReady||latestLat===null||latestLng===null){setMsg('Kindly ensure your location is enabled. Try again.','warn');startGPS();return;}
   if(!detectedCampus){setMsg('You are not on campus.','err');return;}
   if(activeSession){setMsg('⚠️ You already have an active session. Please check out first.','warn');return;}
@@ -515,7 +564,7 @@ async function submitCheckOut(){
   
   // Verify form data matches active session
   if(id.toUpperCase() !== activeSession.studentId.toUpperCase()){
-    setMsg('❌ Student ID does not match active session.','err');
+    setMsg('❌ Contact ID does not match active session.','err');
     return;
   }
   
