@@ -710,26 +710,25 @@ async function submitCheckIn(){
     
     const data=await res.json().catch(()=>({}));
     
-    if(res.ok){
-      activeSession = {
-        studentId: id,
-        name: name,
-        trainer: trainer,
-        course: course,
-        campus: detectedCampus.name,
-        checkInTime: checkInTime,
-        checkInLat: latestLat,
-        checkInLng: latestLng
-      };
-      
-      saveActiveSession();
-      showSessionInfo();
-      startTimer();
-      updateButtonStates();
-      setMsg('✅ Checked in successfully! Class time started.','ok');
-    }else{
-      setMsg('❌ '+(data.message||`Check-in failed (${res.status}).`),'err');
-    }
+   // Accept any success status code
+if(res.ok || res.status === 200 || res.status === 202 || res.status === 204){
+  // Clear session FIRST before anything else
+  clearActiveSession();
+  hideSessionInfo();
+  
+  setMsg(`✅ Checked out successfully! Total class time: ${hours}h ${minutes}m`,'ok');
+  
+  // Clear form
+  setTimeout(() => {
+    elId.value = '';
+    elName.value = '';
+    elTrainer.value = '';
+    elCourse.innerHTML = '<option value="">— Select course —</option>';
+    updateButtonStates();
+  }, 100);
+}else{
+  setMsg('❌ '+(data.message||`Check-out failed (${res.status}).`),'err');
+}
   }catch(e){
     setMsg('❌ Network error. Please try again.','err');
   }finally{
