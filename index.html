@@ -751,7 +751,6 @@ async function submitCheckOut(){
     return;
   }
   
-  // Verify form data matches active session
   if(id.toUpperCase() !== activeSession.studentId.toUpperCase()){
     setMsg('❌ Contact ID does not match active session.','err');
     return;
@@ -777,7 +776,7 @@ async function submitCheckOut(){
     const durationMinutes = Math.floor(durationSeconds / 60);
     const hours = Math.floor(durationMinutes / 60);
     const minutes = durationMinutes % 60;
-    const hoursDecimal = (durationMinutes / 60).toFixed(2);
+    const hoursDecimal = parseFloat((durationMinutes / 60).toFixed(2));
     
     const res=await fetch(CHECKOUT_FLOW_URL,{
       method:'POST',
@@ -803,41 +802,38 @@ async function submitCheckOut(){
     
     const data=await res.json().catch(()=>({}));
     
-     if(res.ok || res.status === 200 || res.status === 202 || res.status === 204){
-  clearActiveSession();
-  hideSessionInfo();
-  
-  setMsg(`✅ Checked out successfully! Total class time: ${hours}h ${minutes}m`,'ok');
-  
-  // Clear form
-  elId.value = '';
-  elName.value = '';
-  elTrainer.value = '';
-  elCourse.innerHTML = '<option value="">— Select course —</option>';
-  updateButtonStates();
-}else{
+    if(res.ok || res.status === 200 || res.status === 202 || res.status === 204){
+      clearActiveSession();
+      hideSessionInfo();
+      
+      setMsg(`✅ Checked out successfully! Total class time: ${hours}h ${minutes}m`,'ok');
+      
+      elId.value = '';
+      elName.value = '';
+      elTrainer.value = '';
+      elCourse.innerHTML = '<option value="">— Select course —</option>';
+      updateButtonStates();
+    }else{
       setMsg('❌ '+(data.message||`Check-out failed (${res.status}).`),'err');
     }
   }catch(e){
     setMsg('❌ Network error. Please try again.','err');
- }finally{
-  // Force clear session if checkout was attempted
-  if(activeSession){
-    console.log('Forcing session clear in finally block');
-    clearActiveSession();
-    hideSessionInfo();
+    console.error('Checkout error:', e);
+  }finally{
+    // Always clear session on checkout attempt
+    if(activeSession){
+      clearActiveSession();
+      hideSessionInfo();
+      elId.value = '';
+      elName.value = '';
+      elTrainer.value = '';
+      elCourse.innerHTML = '<option value="">— Select course —</option>';
+    }
     
-    // Clear form
-    elId.value = '';
-    elName.value = '';
-    elTrainer.value = '';
-    elCourse.innerHTML = '<option value="">— Select course —</option>';
+    elBtnCheckOut.disabled=false;
+    elBtnCheckOut.textContent='✓ Check Out';
+    updateButtonStates();
   }
-  
-  elBtnCheckOut.disabled=false;
-  elBtnCheckOut.textContent='✓ Check Out';
-  updateButtonStates();
-}
 }
 
 /* Initialize */
