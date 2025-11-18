@@ -1,3 +1,5 @@
+Original code
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -710,22 +712,26 @@ async function submitCheckIn(){
     
     const data=await res.json().catch(()=>({}));
     
-   // Accept any success status code
-if(res.ok){
-  setMsg(`Checked out successfully! Total class time checked in: ${hours}h ${minutes}m`,'ok');
-  clearActiveSession();
-  hideSessionInfo();
-  
-  // Clear form
-  elId.value = '';
-  elName.value = '';
-  elTrainer.value = '';
-  elCourse.innerHTML = '<option value="">— Select course —</option>';
-  
-  updateButtonStates();
-}else{
-  setMsg('❌ '+(data.message||`Check-out failed (${res.status}).`),'err');
-}
+    if(res.ok){
+      activeSession = {
+        studentId: id,
+        name: name,
+        trainer: trainer,
+        course: course,
+        campus: detectedCampus.name,
+        checkInTime: checkInTime,
+        checkInLat: latestLat,
+        checkInLng: latestLng
+      };
+      
+      saveActiveSession();
+      showSessionInfo();
+      startTimer();
+      updateButtonStates();
+      setMsg('✅ Checked in successfully! Class time started.','ok');
+    }else{
+      setMsg('❌ '+(data.message||`Check-in failed (${res.status}).`),'err');
+    }
   }catch(e){
     setMsg('❌ Network error. Please try again.','err');
   }finally{
