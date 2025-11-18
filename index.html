@@ -710,7 +710,7 @@ async function submitCheckIn(){
     
     const data=await res.json().catch(()=>({}));
     
-    if(res.ok){
+    if(res.ok || res.status === 200 || res.status === 202 || res.status === 204){
       activeSession = {
         studentId: id,
         name: name,
@@ -803,19 +803,19 @@ async function submitCheckOut(){
     
     const data=await res.json().catch(()=>({}));
     
-    if(res.ok){
-      setMsg(`Checked out successfully! Total class time checked in: ${hours}h ${minutes}m`,'ok');
-      clearActiveSession();
-      hideSessionInfo();
-      
-      // Clear form
-      elId.value = '';
-      elName.value = '';
-      elTrainer.value = '';
-      elCourse.innerHTML = '<option value="">— Select course —</option>';
-      
-      updateButtonStates();
-    }else{
+     if(res.ok || res.status === 200 || res.status === 202 || res.status === 204){
+  clearActiveSession();
+  hideSessionInfo();
+  
+  setMsg(`✅ Checked out successfully! Total class time: ${hours}h ${minutes}m`,'ok');
+  
+  // Clear form
+  elId.value = '';
+  elName.value = '';
+  elTrainer.value = '';
+  elCourse.innerHTML = '<option value="">— Select course —</option>';
+  updateButtonStates();
+}else{
       setMsg('❌ '+(data.message||`Check-out failed (${res.status}).`),'err');
     }
   }catch(e){
