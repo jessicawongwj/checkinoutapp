@@ -820,11 +820,24 @@ async function submitCheckOut(){
     }
   }catch(e){
     setMsg('❌ Network error. Please try again.','err');
-  }finally{
-    elBtnCheckOut.disabled=false;
-    elBtnCheckOut.textContent='✓ Check Out';
-    updateButtonStates();
+ }finally{
+  // Force clear session if checkout was attempted
+  if(activeSession){
+    console.log('Forcing session clear in finally block');
+    clearActiveSession();
+    hideSessionInfo();
+    
+    // Clear form
+    elId.value = '';
+    elName.value = '';
+    elTrainer.value = '';
+    elCourse.innerHTML = '<option value="">— Select course —</option>';
   }
+  
+  elBtnCheckOut.disabled=false;
+  elBtnCheckOut.textContent='✓ Check Out';
+  updateButtonStates();
+}
 }
 
 /* Initialize */
