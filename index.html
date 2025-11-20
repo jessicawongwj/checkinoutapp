@@ -517,7 +517,43 @@ function onGPSSuccess(pos){
   
   updateButtonStates();
 }
+  /* NEW: Track completed check-ins */
+function getTodayKey(){
+  const today = new Date();
+  return `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+}
 
+function hasCheckedInToday(studentId){
+  const todayKey = getTodayKey();
+  const checkInsToday = JSON.parse(localStorage.getItem('checkInsToday') || '{}');
+  return checkInsToday[todayKey] && checkInsToday[todayKey].includes(studentId.toUpperCase());
+}
+
+function recordCheckInToday(studentId){
+  const todayKey = getTodayKey();
+  const checkInsToday = JSON.parse(localStorage.getItem('checkInsToday') || '{}');
+  
+  if(!checkInsToday[todayKey]){
+    checkInsToday[todayKey] = [];
+  }
+  
+  if(!checkInsToday[todayKey].includes(studentId.toUpperCase())){
+    checkInsToday[todayKey].push(studentId.toUpperCase());
+  }
+  
+  // Clean up old dates (keep only last 7 days)
+  const allDates = Object.keys(checkInsToday);
+  const today = new Date();
+  allDates.forEach(dateKey => {
+    const checkDate = new Date(dateKey);
+    const daysDiff = Math.floor((today - checkDate) / (1000 * 60 * 60 * 24));
+    if(daysDiff > 7){
+      delete checkInsToday[dateKey];
+    }
+  });
+  
+  localStorage.setItem('checkInsToday', JSON.stringify(checkInsToday));
+}
 function onGPSError(err){
   gpsReady=false;
   updateButtonStates();
@@ -648,6 +684,15 @@ function showSessionInfo(){
     hour12: true
   });
 }
+  if(!ID_REGEX.test(id)){setMsg('Please enter a valid Contact ID.','warn');return;}
+
+/* NEW: Check if already checked in today */
+if(hasCheckedInToday(id)){
+  setMsg('⚠️ You have already checked in today. You can only check in once per day.','warn');
+  return;
+}
+
+if(!gpsReady||latestLat===null||latestLng===null){...
 
 function hideSessionInfo(){
   elSessionInfo.classList.remove('active');
@@ -721,7 +766,9 @@ async function submitCheckIn(){
         checkInLat: latestLat,
         checkInLng: latestLng
       };
-      
+      recordCheckInToday(id);
+
+saveActiveSession();
       saveActiveSession();
       showSessionInfo();
       startTimer();
