@@ -779,12 +779,12 @@ async function submitCheckIn(){
       showSessionInfo();
       startTimer();
       updateButtonStates();
-      setMsg('✅ Checked in successfully! Class time started.','ok');
+      setMsg('Checked in successfully! Class time started.','ok');
     }else if(res.status === 409){
       // Handle duplicate check-in from server
       console.log('Duplicate check-in detected (409). Showing warning message.');
       recordCheckInToday(id); // Record it locally too
-      setMsg('⚠️ You have already checked in today. You can only check in once per day.','warn');
+      setMsg('You have already checked in today. You can only check in once per day.','warn');
     }else{
       setMsg('❌ '+(data.message||`Check-in failed (${res.status}).`),'err');
     }
@@ -805,12 +805,12 @@ async function submitCheckOut(){
   const course=elCourse.value;
   
   if(!activeSession){
-    setMsg('❌ No active session found. Please check in first.','err');
+    setMsg('No active session found. Please check in first.','err');
     return;
   }
   
   if(id.toUpperCase() !== activeSession.studentId.toUpperCase()){
-    setMsg('❌ Contact ID does not match active session.','err');
+    setMsg('Contact ID does not match active session.','err');
     return;
   }
   
@@ -864,7 +864,7 @@ async function submitCheckOut(){
       clearActiveSession();
       hideSessionInfo();
       
-      setMsg(`✅ Checked out successfully! Total class time: ${hours}h ${minutes}m`,'ok');
+      setMsg(`Checked out successfully! Total class time: ${hours}h ${minutes}m`,'ok');
       
       elId.value = '';
       elName.value = '';
