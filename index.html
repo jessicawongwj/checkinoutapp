@@ -684,15 +684,6 @@ function showSessionInfo(){
     hour12: true
   });
 }
-  if(!ID_REGEX.test(id)){setMsg('Please enter a valid Contact ID.','warn');return;}
-
-/* NEW: Check if already checked in today */
-if(hasCheckedInToday(id)){
-  setMsg('⚠️ You have already checked in today. You can only check in once per day.','warn');
-  return;
-}
-
-if(!gpsReady||latestLat===null||latestLng===null){...
 
 function hideSessionInfo(){
   elSessionInfo.classList.remove('active');
@@ -729,6 +720,12 @@ async function submitCheckIn(){
   elMsg.style.display='none';
   
   if(!ID_REGEX.test(id)){setMsg('Please enter a valid Contact ID.','warn');return;}
+  
+  /* NEW: Check if already checked in today */
+  if(hasCheckedInToday(id)){
+    setMsg('⚠️ You have already checked in today. You can only check in once per day.','warn');
+    return;
+  }
   if(!gpsReady||latestLat===null||latestLng===null){setMsg('Kindly ensure your location is enabled. Try again.','warn');startGPS();return;}
   if(!detectedCampus){setMsg('You are not on campus.','err');return;}
   if(activeSession){setMsg('⚠️ You already have an active session. Please check out first.','warn');return;}
@@ -768,7 +765,6 @@ async function submitCheckIn(){
       };
       recordCheckInToday(id);
 
-saveActiveSession();
       saveActiveSession();
       showSessionInfo();
       startTimer();
