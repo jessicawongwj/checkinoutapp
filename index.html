@@ -588,6 +588,7 @@ const elTimeElapsed=document.getElementById('timeElapsed');
 function setMsg(txt,cls){
   elMsg.textContent=txt;
   elMsg.className='msg '+cls;
+  elMsg.style.display=''; // Clear inline style to let CSS take over
 }
 
 function updateButtonStates(){
@@ -750,7 +751,16 @@ async function submitCheckIn(){
       })
     });
     
-    const data=await res.json().catch(()=>({}));
+    console.log('Check-in response status:', res.status);
+    console.log('Response OK:', res.ok);
+    
+    let data = {};
+    try {
+      data = await res.json();
+      console.log('Response data:', data);
+    } catch(e) {
+      console.log('Failed to parse response JSON:', e);
+    }
     
     if(res.ok || res.status === 200 || res.status === 202 || res.status === 204){
       activeSession = {
@@ -772,6 +782,7 @@ async function submitCheckIn(){
       setMsg('✅ Checked in successfully! Class time started.','ok');
     }else if(res.status === 409){
       // Handle duplicate check-in from server
+      console.log('Duplicate check-in detected (409). Showing warning message.');
       recordCheckInToday(id); // Record it locally too
       setMsg('⚠️ You have already checked in today. You can only check in once per day.','warn');
     }else{
@@ -853,7 +864,7 @@ async function submitCheckOut(){
       clearActiveSession();
       hideSessionInfo();
       
-      setMsg(`Checked out successfully! Total class time: ${hours}h ${minutes}m`,'ok');
+      setMsg(`✅ Checked out successfully! Total class time: ${hours}h ${minutes}m`,'ok');
       
       elId.value = '';
       elName.value = '';
