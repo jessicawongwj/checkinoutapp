@@ -836,6 +836,14 @@ async function submitCheckOut(){
     const minutes = durationMinutes % 60;
     const hoursDecimal = parseFloat((durationMinutes / 60).toFixed(2));
     
+    // NEW: Round hours - if >=30 minutes, round UP to next hour
+    let roundedHours;
+    if (minutes >= 30) {
+        roundedHours = hours + 1;  // Round UP to next hour
+    } else {
+        roundedHours = hours;      // Keep whole hours only
+    }
+    
     const res=await fetch(CHECKOUT_FLOW_URL,{
       method:'POST',
       headers:{'Content-Type':'application/json'},
@@ -854,7 +862,8 @@ async function submitCheckOut(){
         DurationSeconds: durationSeconds,
         DurationMinutes: durationMinutes,
         DurationFormatted: `${hours}h ${minutes}m`,
-        Hours: hoursDecimal
+        RawHours: hoursDecimal,
+        Hours: roundedHours
       })
     });
     
@@ -864,7 +873,7 @@ async function submitCheckOut(){
       clearActiveSession();
       hideSessionInfo();
       
-      setMsg(`Checked out successfully! Total class time: ${hours}h ${minutes}m`,'ok');
+      setMsg(`Checked out successfully! Total class time: ${hours}h ${minutes}m (Recorded: ${roundedHours} hours)`,'ok');
       
       elId.value = '';
       elName.value = '';
