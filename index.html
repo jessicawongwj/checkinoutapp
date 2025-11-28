@@ -95,55 +95,6 @@
     box-shadow:0 0 0 4px rgba(45,27,78,.12);
   }
   
-  /* NEW: Validation States */
-  input.validating{
-    border-color:#f59e0b !important;
-    background:#fffbeb !important;
-  }
-  
-  input.valid{
-    border-color:#10b981 !important;
-    background:#ecfdf5 !important;
-  }
-  
-  input.invalid{
-    border-color:#ef4444 !important;
-    background:#fef2f2 !important;
-  }
-  
-  /* NEW: Read-only name field styling */
-  input[readonly] {
-    background-color: #f9fafb !important;
-    cursor: not-allowed !important;
-    opacity: 0.8;
-  }
-  
-  /* NEW: Validation Badge */
-  .validation-badge{
-    display:inline-block;
-    margin-left:8px;
-    font-size:11px;
-    padding:3px 8px;
-    border-radius:6px;
-    font-weight:600;
-    vertical-align:middle;
-  }
-  
-  .validation-badge.checking{
-    background:#fef3c7;
-    color:#92400e;
-  }
-  
-  .validation-badge.valid{
-    background:#d1fae5;
-    color:#065f46;
-  }
-  
-  .validation-badge.invalid{
-    background:#fee2e2;
-    color:#991b1b;
-  }
-  
   button{
     border:none;
     font-weight:700;
@@ -458,14 +409,11 @@
       <p class="muted">Please enable location. Location access is limited to campus verification only.</p>
 
       <form onsubmit="return false;">
-        <label for="studentId">
-          Contact ID
-          <span id="validationBadge"></span>
-        </label>
+        <label for="studentId">Contact ID</label>
         <input id="studentId" inputmode="numeric" pattern="[0-9]*" placeholder="e.g. 13579666 - as per your Axcelerate profile" required autofocus />
 
         <label for="name">Full Name</label>
-        <input id="name" placeholder="Name will auto-fill when ID is valid" readonly style="background:#f9fafb;" />
+        <input id="name" placeholder="e.g. Wilson So" required />
 
         <div class="row">
           <div>
@@ -500,44 +448,35 @@
         </div>
         <div class="session-row">
           <span class="session-label">Checked in at:</span>
-          <span class="session-value" id="sessionCheckIn">—</span>
+          <span class="session-value" id="sessionCheckIn">-</span>
         </div>
         <div class="session-row">
           <span class="session-label">Campus:</span>
-          <span class="session-value" id="sessionCampus">—</span>
+          <span class="session-value" id="sessionCampus">-</span>
         </div>
-        <div class="session-row">
-          <span class="session-label">Time elapsed:</span>
-          <span class="session-value">
-            <div class="time-display" id="timeElapsed">00:00:00</div>
-          </span>
-        </div>
+        <div class="time-display" id="timeElapsed">00:00:00</div>
       </div>
 
       <div id="msg" class="msg"></div>
-
+      
       <div class="footer-detailed">
-        <div class="footer-copyright">©2025 Charlton Brown Pty Ltd Trading As Charlton Brown is a proud member of NIET Group.</div>
-        <div class="footer-codes">CRICOS Provider Code 03622D | RTO 2508 | ABN 76 071 346 953</div>
+        <div class="footer-copyright">
+          ©2025 Charlton Brown Pty Ltd Trading As Charlton Brown is a proud member of NIET Group.
+        </div>
+        <div class="footer-codes">
+          CRICOS Provider Code 03822D | RTO 2508 | ABN 76 071 346 953
+        </div>
         <div class="footer-acknowledgment">
-          Charlton Brown acknowledges the Traditional Custodians of the lands on which we work and live. We pay our respects to Elders both past, present and future, and extend that respect to all Aboriginal and Torres Strait Islander Peoples.
+          Charlton Brown acknowledges the Traditional Custodians of the lands on which we work and live. We pay our respects to Elders both past, present and future; and extend that respect to all Aboriginal and Torres Strait Islander Peoples.
         </div>
       </div>
     </div>
   </div>
 
 <script>
-/* ============================================
-   CONFIGURATION
-   ============================================ */
-
-// TODO: Add your Power Automate validation flow URL here
-const VALIDATE_FLOW_URL = 'https://default9d8868a5c1dc4786aff1f7d04646be.9a.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/b3509328dd454302b7c34d7f43492fcf/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=jp1KmDONkh-znG44g2lXZKQNLrddBUgc16iUrbKajS0';
-
-// TODO: Add your check-in and check-out flow URLs
-const CHECKIN_FLOW_URL = 'https://default9d8868a5c1dc4786aff1f7d04646be.9a.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/9ed041ac7ca143a0b262334d9dfc13d5/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=il-cX-qHDZbGSxE2OnN56BK2jdJIgxWXFIStUm65G6g';
-const CHECKOUT_FLOW_URL = 'https://default9d8868a5c1dc4786aff1f7d04646be.9a.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/2e4266def4fe44618e9eddd28221178c/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=NfMkFq1ITZSPcQNVmn6Ikt7OPS0NUA_Yp-Q9QP8TFoQ';
-
+/* CONFIG */
+const CHECKIN_FLOW_URL = "https://default9d8868a5c1dc4786aff1f7d04646be.9a.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/9ed041ac7ca143a0b262334d9dfc13d5/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=il-cX-qHDZbGSxE2OnN56BK2jdJIgxWXFIStUm65G6g";
+const CHECKOUT_FLOW_URL = "https://default9d8868a5c1dc4786aff1f7d04646be.9a.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/2e4266def4fe44618e9eddd28221178c/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=NfMkFq1ITZSPcQNVmn6Ikt7OPS0NUA_Yp-Q9QP8TFoQ"
 const ID_REGEX = /^[0-9]{8,}$/;
 
 /* All available courses */
@@ -618,124 +557,8 @@ const campuses = [
   }
 ];
 
-/* ============================================
-   STATE MANAGEMENT
-   ============================================ */
-
+/* GPS */
 let gpsReady=false,latestLat=null,latestLng=null,detectedCampus=null,activeSession=null,timerInterval=null;
-
-// NEW: Validation state
-let validationTimeout = null;
-let isContactValid = false;
-
-/* ============================================
-   DOM ELEMENTS
-   ============================================ */
-
-const elId=document.getElementById('studentId');
-const elName=document.getElementById('name');
-const elTrainer=document.getElementById('trainer');
-const elCourse=document.getElementById('course');
-const elBtnCheckIn=document.getElementById('btnCheckIn');
-const elBtnCheckOut=document.getElementById('btnCheckOut');
-const elMsg=document.getElementById('msg');
-const elSessionInfo=document.getElementById('sessionInfo');
-const elSessionCheckIn=document.getElementById('sessionCheckIn');
-const elSessionCampus=document.getElementById('sessionCampus');
-const elTimeElapsed=document.getElementById('timeElapsed');
-const elValidationBadge=document.getElementById('validationBadge'); // NEW
-
-/* ============================================
-   NEW: CONTACT ID VALIDATION & AUTO-FILL
-   ============================================ */
-
-async function validateContactId(contactId) {
-  // Clear previous validation state
-  elId.classList.remove('valid', 'invalid', 'validating');
-  elName.value = '';
-  isContactValid = false;
-  elValidationBadge.innerHTML = '';
-  
-  if (!contactId || contactId.trim().length === 0) {
-    updateButtonStates();
-    return;
-  }
-  
-  // Show validating state
-  elId.classList.add('validating');
-  elValidationBadge.innerHTML = '<span class="validation-badge checking">Checking...</span>';
-  
-  try {
-    const response = await fetch(VALIDATE_FLOW_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ studentId: contactId.trim() })
-    });
-    
-    const data = await response.json();
-    
-    if (data.valid && data.studentName) {
-      // Valid contact found
-      elId.classList.remove('validating');
-      elId.classList.add('valid');
-      elName.value = data.studentName;  // AUTO-FILL NAME!
-      elName.readOnly = true;
-      elValidationBadge.innerHTML = '<span class="validation-badge valid">✓ Valid</span>';
-      isContactValid = true;
-      setMsg('✓ Contact ID verified successfully!', 'ok');
-      
-      // Auto-hide success message after 3 seconds
-      setTimeout(() => {
-        if(elMsg.className === 'msg ok') {
-          elMsg.style.display = 'none';
-        }
-      }, 3000);
-    } else {
-      // Invalid contact
-      elId.classList.remove('validating');
-      elId.classList.add('invalid');
-      elName.readOnly = false;
-      elValidationBadge.innerHTML = '<span class="validation-badge invalid">✗ Not Found</span>';
-      isContactValid = false;
-      setMsg('❌ Contact ID not found in database. Please check your ID.', 'err');
-    }
-  } catch (error) {
-    console.error('Validation error:', error);
-    elId.classList.remove('validating');
-    elId.classList.add('invalid');
-    elValidationBadge.innerHTML = '<span class="validation-badge invalid">✗ Error</span>';
-    isContactValid = false;
-    setMsg('❌ Unable to validate Contact ID. Please try again.', 'err');
-  }
-  
-  updateButtonStates();
-}
-
-// Debounced validation on input
-elId.addEventListener('input', () => {
-  clearTimeout(validationTimeout);
-  const value = elId.value.trim();
-  
-  if (value.length >= 8) {
-    // Wait 800ms after user stops typing before validating
-    validationTimeout = setTimeout(() => {
-      validateContactId(value);
-    }, 800);
-  } else {
-    // Clear validation if less than 8 digits
-    elId.classList.remove('valid', 'invalid', 'validating');
-    elName.value = '';
-    elName.readOnly = false;
-    elValidationBadge.innerHTML = '';
-    isContactValid = false;
-    elMsg.style.display = 'none';
-    updateButtonStates();
-  }
-});
-
-/* ============================================
-   GPS FUNCTIONS
-   ============================================ */
 
 function haversine(lat1,lon1,lat2,lon2){
   const toRad=x=>x*Math.PI/180;
@@ -758,7 +581,7 @@ function onGPSSuccess(pos){
   
   updateButtonStates();
 }
-
+  /* NEW: Track completed check-ins */
 function getTodayKey(){
   const today = new Date();
   return `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
@@ -795,7 +618,6 @@ function recordCheckInToday(studentId){
   
   localStorage.setItem('checkInsToday', JSON.stringify(checkInsToday));
 }
-
 function onGPSError(err){
   gpsReady=false;
   updateButtonStates();
@@ -814,19 +636,27 @@ function startGPS(){
   });
 }
 
-/* ============================================
-   UI FUNCTIONS
-   ============================================ */
+/* UI */
+const elId=document.getElementById('studentId');
+const elName=document.getElementById('name');
+const elTrainer=document.getElementById('trainer');
+const elCourse=document.getElementById('course');
+const elBtnCheckIn=document.getElementById('btnCheckIn');
+const elBtnCheckOut=document.getElementById('btnCheckOut');
+const elMsg=document.getElementById('msg');
+const elSessionInfo=document.getElementById('sessionInfo');
+const elSessionCheckIn=document.getElementById('sessionCheckIn');
+const elSessionCampus=document.getElementById('sessionCampus');
+const elTimeElapsed=document.getElementById('timeElapsed');
 
 function setMsg(txt,cls){
   elMsg.textContent=txt;
   elMsg.className='msg '+cls;
-  elMsg.style.display='';
+  elMsg.style.display=''; // Clear inline style to let CSS take over
 }
 
 function updateButtonStates(){
-  // UPDATED: Now checks isContactValid instead of just elName.value
-  const formValid = elId.value.trim() && isContactValid && elName.value.trim() && elTrainer.value && elCourse.value;
+  const formValid = elId.value.trim() && elName.value.trim() && elTrainer.value && elCourse.value;
   const locationOk = gpsReady && detectedCampus;
   
   if(activeSession){
@@ -863,25 +693,26 @@ elTrainer.addEventListener('change', () => {
   updateButtonStates();
 });
 
-elTrainer.addEventListener('change', updateButtonStates);
+elId.addEventListener('input', updateButtonStates);
+elName.addEventListener('input', updateButtonStates);
 elCourse.addEventListener('change', updateButtonStates);
 
-/* ============================================
-   SESSION MANAGEMENT
-   ============================================ */
-
+/* Session Management */
 function loadActiveSession(){
   const saved = localStorage.getItem('activeSession');
   if(saved){
     try{
       activeSession = JSON.parse(saved);
       
+      // Populate form with saved session data
       elId.value = activeSession.studentId;
       elName.value = activeSession.name;
       elTrainer.value = activeSession.trainer;
       
+      // Trigger trainer change to populate courses
       elTrainer.dispatchEvent(new Event('change'));
       
+      // Wait a moment for courses to populate, then set course
       setTimeout(()=>{
         elCourse.value = activeSession.course;
         updateButtonStates();
@@ -923,10 +754,7 @@ function hideSessionInfo(){
   elSessionInfo.classList.remove('active');
 }
 
-/* ============================================
-   TIMER
-   ============================================ */
-
+/* Timer */
 function formatTime(seconds){
   const h = Math.floor(seconds / 3600);
   const m = Math.floor((seconds % 3600) / 60);
@@ -947,10 +775,7 @@ function startTimer(){
   timerInterval = setInterval(updateTimer, 1000);
 }
 
-/* ============================================
-   CHECK IN
-   ============================================ */
-
+/* Check In */
 async function submitCheckIn(){
   const id=(elId.value||'').trim();
   const name=(elName.value||'').trim();
@@ -961,17 +786,11 @@ async function submitCheckIn(){
   
   if(!ID_REGEX.test(id)){setMsg('Please enter a valid Contact ID.','warn');return;}
   
-  // NEW: Check validation state
-  if(!isContactValid){
-    setMsg('❌ Please enter a valid Contact ID first.','err');
-    return;
-  }
-  
+  /* NEW: Check if already checked in today */
   if(hasCheckedInToday(id)){
     setMsg('⚠️ You have already checked in today. You can only check in once per day.','warn');
     return;
   }
-  
   if(!gpsReady||latestLat===null||latestLng===null){setMsg('Kindly ensure your location is enabled. Try again.','warn');startGPS();return;}
   if(!detectedCampus){setMsg('You are not on campus.','err');return;}
   if(activeSession){setMsg('⚠️ You already have an active session. Please check out first.','warn');return;}
@@ -997,6 +816,7 @@ async function submitCheckIn(){
     });
     
     console.log('Check-in response status:', res.status);
+    console.log('Response OK:', res.ok);
     
     let data = {};
     try {
@@ -1025,7 +845,9 @@ async function submitCheckIn(){
       updateButtonStates();
       setMsg('Checked in successfully! Class time started.','ok');
     }else if(res.status === 409){
-      recordCheckInToday(id);
+      // Handle duplicate check-in from server
+      console.log('Duplicate check-in detected (409). Showing warning message.');
+      recordCheckInToday(id); // Record it locally too
       setMsg('You have already checked in today. You can only check in once per day.','warn');
     }else{
       setMsg('❌ '+(data.message||`Check-in failed (${res.status}).`),'err');
@@ -1039,10 +861,7 @@ async function submitCheckIn(){
   }
 }
 
-/* ============================================
-   CHECK OUT
-   ============================================ */
-
+/* Check Out */
 async function submitCheckOut(){
   const id=(elId.value||'').trim();
   const name=(elName.value||'').trim();
@@ -1081,11 +900,12 @@ async function submitCheckOut(){
     const minutes = durationMinutes % 60;
     const hoursDecimal = parseFloat((durationMinutes / 60).toFixed(2));
     
+    // NEW: Round hours - if >=30 minutes, round UP to next hour
     let roundedHours;
     if (minutes >= 30) {
-      roundedHours = hours + 1;
+        roundedHours = hours + 1;  // Round UP to next hour
     } else {
-      roundedHours = hours;
+        roundedHours = hours;      // Keep whole hours only
     }
     
     const res=await fetch(CHECKOUT_FLOW_URL,{
@@ -1123,9 +943,6 @@ async function submitCheckOut(){
       elName.value = '';
       elTrainer.value = '';
       elCourse.innerHTML = '<option value="">— Select course —</option>';
-      elId.classList.remove('valid', 'invalid');
-      elValidationBadge.innerHTML = '';
-      isContactValid = false;
       updateButtonStates();
     }else{
       setMsg('❌ '+(data.message||`Check-out failed (${res.status}).`),'err');
@@ -1134,6 +951,7 @@ async function submitCheckOut(){
     setMsg('❌ Network error. Please try again.','err');
     console.error('Checkout error:', e);
   }finally{
+    // Always clear session on checkout attempt
     if(activeSession){
       clearActiveSession();
       hideSessionInfo();
@@ -1141,9 +959,6 @@ async function submitCheckOut(){
       elName.value = '';
       elTrainer.value = '';
       elCourse.innerHTML = '<option value="">— Select course —</option>';
-      elId.classList.remove('valid', 'invalid');
-      elValidationBadge.innerHTML = '';
-      isContactValid = false;
     }
     
     elBtnCheckOut.disabled=false;
@@ -1152,13 +967,9 @@ async function submitCheckOut(){
   }
 }
 
-/* ============================================
-   INITIALIZE
-   ============================================ */
-
+/* Initialize */
 startGPS();
 loadActiveSession();
-
 </script>
 </body>
 </html>
