@@ -16,9 +16,7 @@
     --ok:#118a0a; --warn:#d97706; --err:#b91c1c;
     --checkout:#dc2626; --checkout-dark:#b91c1c;
   }
-  
   *{box-sizing:border-box;}
-  
   body{
     margin:0;color:#111;
     font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
@@ -29,12 +27,7 @@
     justify-content:center;
     padding:16px;
   }
-  
-  .wrap{
-    width:100%;
-    max-width:600px;
-  }
-  
+  .wrap{ width:100%; max-width:600px; }
   .card{
     background:#fff;
     border-radius:16px;
@@ -42,7 +35,6 @@
     box-shadow:0 18px 40px rgba(0,0,0,.25);
     border-top:4px solid var(--accent-gold);
   }
-  
   h1{
     margin:0 0 10px;
     font-size:26px;
@@ -56,346 +48,47 @@
     letter-spacing:0.5px;
     line-height:1.2;
   }
-  
-  .muted{
-    color:#555;
-    font-size:13px;
-    margin:0 0 20px;
-    text-align:center;
-    line-height:1.4;
-  }
-  
-  label{
-    display:block;
-    margin:16px 0 8px;
-    font-weight:600;
-    color:#2D1B4E;
-    font-family:'Playfair Display',Georgia,serif;
-    font-size:15px;
-  }
-  
-  label:first-of-type{
-    margin-top:0;
-  }
-  
-  input,select,button{
-    width:100%;
-    padding:14px 16px;
-    border:1px solid #d8dee9;
-    border-radius:12px;
-    background:#fff;
-    font-size:16px;
-    -webkit-appearance:none;
-    appearance:none;
-  }
-  
-  input:focus,select:focus{
-    outline:none;
-    border-color:var(--brand);
-    box-shadow:0 0 0 4px rgba(45,27,78,.12);
-  }
-  
-  button{
-    border:none;
-    font-weight:700;
-    cursor:pointer;
-    transition:all .2s ease;
-    font-size:16px;
-    padding:16px 14px;
-    font-family:'Playfair Display',Georgia,serif;
-    letter-spacing:0.5px;
-    min-height:50px;
-    -webkit-tap-highlight-color:transparent;
-  }
-  
-  button:active{
-    transform:scale(0.98);
-  }
-  
-  button[disabled]{
-    background:#c4b8d3;
-    cursor:not-allowed;
-    color:#fff;
-  }
-  
-  /* Button Row Container */
-  .button-row{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:16px;
-    margin-top:24px;
-  }
-  
-  /* Check In Button */
-  .btn-checkin{
-    background:var(--brand);
-    color:#fff;
-  }
-  
-  .btn-checkin:hover:not([disabled]){
-    background:var(--brand-dark);
-  }
-  
-  .btn-checkin:active:not([disabled]){
-    background:var(--brand-dark);
-  }
-  
-  /* Check Out Button */
-  .btn-checkout{
-    background:var(--checkout);
-    color:#fff;
-  }
-  
-  .btn-checkout:hover:not([disabled]){
-    background:var(--checkout-dark);
-  }
-  
-  .btn-checkout:active:not([disabled]){
-    background:var(--checkout-dark);
-  }
-  
-  .row{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:16px;
-    align-items:start;
-    margin-top:16px;
-  }
-  
-  .row > div{
-    min-width:0;
-  }
-  
-  .msg{
-    margin-top:16px;
-    padding:14px;
-    border-radius:12px;
-    font-size:14px;
-    display:none;
-    line-height:1.5;
-  }
-  
-  .msg.ok{
-    display:block;
-    background:#ecfdf5;
-    color:var(--ok);
-    border:1px solid #bbf7d0;
-  }
-  
-  .msg.warn{
-    display:block;
-    background:#fffbeb;
-    color:var(--warn);
-    border:1px solid #fde68a;
-  }
-  
-  .msg.err{
-    display:block;
-    background:#fef2f2;
-    color:var(--err);
-    border:1px solid #fecaca;
-  }
-  
-  .msg.info{
-    display:block;
-    background:#eff6ff;
-    color:#2563eb;
-    border:1px solid #bfdbfe;
-  }
-  
-  .footer{
-    text-align:center;
-    margin-top:20px;
-    color:#6b7280;
-    font-size:11px;
-    font-family:'Playfair Display',Georgia,serif;
-    letter-spacing:0.5px;
-  }
-  
-  .footer-detailed{
-    text-align:center;
-    margin-top:24px;
-    padding-top:20px;
-    border-top:1px solid #e5e7eb;
-  }
-  
-  .footer-copyright{
-    color:#2D1B4E;
-    font-size:11px;
-    font-weight:600;
-    margin-bottom:8px;
-    line-height:1.5;
-  }
-  
-  .footer-codes{
-    color:#6b7280;
-    font-size:10px;
-    margin-bottom:12px;
-    line-height:1.4;
-  }
-  
-  .footer-acknowledgment{
-    color:#555;
-    font-size:10px;
-    line-height:1.6;
-    font-style:italic;
-    padding:12px;
-    background:#f9fafb;
-    border-radius:8px;
-    margin-top:12px;
-  }
-  
-  .logo-container{
-    text-align:left;
-    margin-bottom:20px;
-  }
-  
-  .logo-container img{
-    max-width:280px;
-    height:auto;
-    max-height:55px;
-  }
-  
-  /* Session Info Display */
-  .session-info{
-    background:#f8f9fa;
-    border-radius:12px;
-    padding:16px;
-    margin-top:16px;
-    display:none;
-    border-left:4px solid var(--accent-gold);
-  }
-  
-  .session-info.active{
-    display:block;
-  }
-  
-  .session-header{
-    font-weight:700;
-    color:var(--brand);
-    margin-bottom:12px;
-    font-size:14px;
-    display:flex;
-    align-items:center;
-    gap:8px;
-    font-family:'Playfair Display',Georgia,serif;
-  }
-  
-  .status-badge{
-    display:inline-block;
-    background:var(--accent-gold);
-    color:#2D1B4E;
-    padding:4px 10px;
-    border-radius:12px;
-    font-size:10px;
-    font-weight:700;
-    text-transform:uppercase;
-    letter-spacing:0.5px;
-    font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-  }
-  
-  .session-row{
-    display:flex;
-    justify-content:space-between;
-    padding:6px 0;
-    font-size:13px;
-    gap:8px;
-  }
-  
-  .session-label{
-    color:#6b7280;
-  }
-  
-  .session-value{
-    font-weight:600;
-    color:#2D1B4E;
-    font-family:'Playfair Display',Georgia,serif;
-    text-align:right;
-  }
-  
-  .time-display{
-    text-align:center;
-    font-size:32px;
-    font-weight:800;
-    color:var(--brand);
-    margin:12px 0 0;
-    font-variant-numeric:tabular-nums;
-    letter-spacing:-1px;
-    font-family:'Playfair Display',Georgia,serif;
-  }
-  
-  /* Mobile Optimizations */
+  .muted{ color:#555; font-size:13px; margin:0 0 20px; text-align:center; line-height:1.4; }
+  label{ display:block; margin:16px 0 8px; font-weight:600; color:#2D1B4E; font-family:'Playfair Display',Georgia,serif; font-size:15px; }
+  label:first-of-type{ margin-top:0; }
+  input,select,button{ width:100%; padding:14px 16px; border:1px solid #d8dee9; border-radius:12px; background:#fff; font-size:16px; -webkit-appearance:none; appearance:none; }
+  input:focus,select:focus{ outline:none; border-color:var(--brand); box-shadow:0 0 0 4px rgba(45,27,78,.12); }
+  button{ border:none; font-weight:700; cursor:pointer; transition:all .2s ease; font-size:16px; padding:16px 14px; font-family:'Playfair Display',Georgia,serif; letter-spacing:0.5px; min-height:50px; -webkit-tap-highlight-color:transparent; }
+  button:active{ transform:scale(0.98); }
+  button[disabled]{ background:#c4b8d3; cursor:not-allowed; color:#fff; }
+  .button-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:24px; }
+  .btn-checkin{ background:var(--brand); color:#fff; }
+  .btn-checkin:hover:not([disabled]){ background:var(--brand-dark); }
+  .btn-checkout{ background:var(--checkout); color:#fff; }
+  .btn-checkout:hover:not([disabled]){ background:var(--checkout-dark); }
+  .row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:start; margin-top:16px; }
+  .row > div{ min-width:0; }
+  .msg{ margin-top:16px; padding:14px; border-radius:12px; font-size:14px; display:none; line-height:1.5; }
+  .msg.ok{ display:block; background:#ecfdf5; color:var(--ok); border:1px solid #bbf7d0; }
+  .msg.warn{ display:block; background:#fffbeb; color:var(--warn); border:1px solid #fde68a; }
+  .msg.err{ display:block; background:#fef2f2; color:var(--err); border:1px solid #fecaca; }
+  .msg.info{ display:block; background:#eff6ff; color:#2563eb; border:1px solid #bfdbfe; }
+  .footer-detailed{ text-align:center; margin-top:24px; padding-top:20px; border-top:1px solid #e5e7eb; }
+  .footer-copyright{ color:#2D1B4E; font-size:11px; font-weight:600; margin-bottom:8px; line-height:1.5; }
+  .footer-codes{ color:#6b7280; font-size:10px; margin-bottom:12px; line-height:1.4; }
+  .footer-acknowledgment{ color:#555; font-size:10px; line-height:1.6; font-style:italic; padding:12px; background:#f9fafb; border-radius:8px; margin-top:12px; }
+  .logo-container{ text-align:left; margin-bottom:20px; }
+  .logo-container img{ max-width:280px; height:auto; max-height:55px; }
+  .session-info{ background:#f8f9fa; border-radius:12px; padding:16px; margin-top:16px; display:none; border-left:4px solid var(--accent-gold); }
+  .session-info.active{ display:block; }
+  .session-header{ font-weight:700; color:var(--brand); margin-bottom:12px; font-size:14px; display:flex; align-items:center; gap:8px; font-family:'Playfair Display',Georgia,serif; }
+  .status-badge{ display:inline-block; background:var(--accent-gold); color:#2D1B4E; padding:4px 10px; border-radius:12px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; }
+  .session-row{ display:flex; justify-content:space-between; padding:6px 0; font-size:13px; gap:8px; }
+  .session-label{ color:#6b7280; }
+  .session-value{ font-weight:600; color:#2D1B4E; font-family:'Playfair Display',Georgia,serif; text-align:right; }
+  .time-display{ text-align:center; font-size:32px; font-weight:800; color:var(--brand); margin:12px 0 0; font-variant-numeric:tabular-nums; letter-spacing:-1px; font-family:'Playfair Display',Georgia,serif; }
   @media (max-width: 480px) {
-    body{
-      padding:12px;
-      align-items:flex-start;
-      padding-top:20px;
-    }
-    
-    .card{
-      padding:24px 18px;
-      border-radius:12px;
-    }
-    
-    h1{
-      font-size:24px;
-      margin-bottom:8px;
-    }
-    
-    .muted{
-      font-size:12px;
-    }
-    
-    .row{
-      grid-template-columns:1fr;
-      gap:0;
-    }
-    
-    .button-row{
-      gap:10px;
-    }
-    
-    button{
-      font-size:15px;
-      padding:15px 12px;
-    }
-    
-    .time-display{
-      font-size:28px;
-    }
-    
-    .session-row{
-      font-size:12px;
-    }
-    
-    label{
-      font-size:14px;
-      margin:14px 0 6px;
-    }
-  }
-  
-  /* Very small screens */
-  @media (max-width: 360px) {
-    .button-row{
-      grid-template-columns:1fr;
-      gap:10px;
-    }
-    
-    h1{
-      font-size:22px;
-    }
-  }
-  
-  /* Landscape mobile */
-  @media (max-width: 767px) and (orientation: landscape) {
-    body{
-      padding:12px;
-      align-items:flex-start;
-    }
-    
-    .card{
-      padding:20px 18px;
-    }
+    body{ padding:12px; align-items:flex-start; padding-top:20px; }
+    .card{ padding:24px 18px; border-radius:12px; }
+    h1{ font-size:24px; }
+    .row{ grid-template-columns:1fr; gap:0; }
+    .button-row{ gap:10px; }
+    .time-display{ font-size:28px; }
   }
 </style>
 </head>
@@ -403,14 +96,14 @@
   <div class="wrap">
     <div class="card">
       <div class="logo-container">
-        <img src="Charlton-Brown-2020-Brand_Logo-with-Slogan-1024x200.png" alt="Charlton Brown - When Care Is Your Calling">
+        <img src="Charlton-Brown-2020-Brand_Logo-with-Slogan-1024x200.png" alt="Charlton Brown">
       </div>
       <h1>Attendance Check-In</h1>
       <p class="muted">Please enable location. Location access is limited to campus verification only.</p>
 
       <form onsubmit="return false;">
         <label for="studentId">Contact ID</label>
-        <input id="studentId" inputmode="numeric" pattern="[0-9]*" placeholder="e.g. 13579666 - as per your Axcelerate profile" required autofocus />
+        <input id="studentId" inputmode="numeric" pattern="[0-9]*" placeholder="e.g. 13579666" required autofocus />
 
         <label for="name">Full Name</label>
         <input id="name" placeholder="e.g. Wilson So" required />
@@ -430,45 +123,24 @@
           </div>
         </div>
 
-        <!-- Side by Side Buttons -->
         <div class="button-row">
-          <button type="button" id="btnCheckIn" class="btn-checkin" disabled onclick="submitCheckIn()">
-            ➜ Check In
-          </button>
-          <button type="button" id="btnCheckOut" class="btn-checkout" disabled onclick="submitCheckOut()">
-            ✓ Check Out
-          </button>
+          <button type="button" id="btnCheckIn" class="btn-checkin" disabled onclick="submitCheckIn()">➜ Check In</button>
+          <button type="button" id="btnCheckOut" class="btn-checkout" disabled onclick="submitCheckOut()">✓ Check Out</button>
         </div>
       </form>
 
-      <!-- Session Info Panel -->
       <div id="sessionInfo" class="session-info">
-        <div class="session-header">
-          <span class="status-badge">Active Session</span>
-        </div>
-        <div class="session-row">
-          <span class="session-label">Checked in at:</span>
-          <span class="session-value" id="sessionCheckIn">-</span>
-        </div>
-        <div class="session-row">
-          <span class="session-label">Campus:</span>
-          <span class="session-value" id="sessionCampus">-</span>
-        </div>
+        <div class="session-header"><span class="status-badge">Active Session</span></div>
+        <div class="session-row"><span class="session-label">Checked in at:</span><span class="session-value" id="sessionCheckIn">-</span></div>
+        <div class="session-row"><span class="session-label">Campus:</span><span class="session-value" id="sessionCampus">-</span></div>
         <div class="time-display" id="timeElapsed">00:00:00</div>
       </div>
 
       <div id="msg" class="msg"></div>
       
       <div class="footer-detailed">
-        <div class="footer-copyright">
-          ©2025 Charlton Brown Pty Ltd Trading As Charlton Brown is a proud member of NIET Group.
-        </div>
-        <div class="footer-codes">
-          CRICOS Provider Code 03822D | RTO 2508 | ABN 76 071 346 953
-        </div>
-        <div class="footer-acknowledgment">
-          Charlton Brown acknowledges the Traditional Custodians of the lands on which we work and live. We pay our respects to Elders both past, present and future; and extend that respect to all Aboriginal and Torres Strait Islander Peoples.
-        </div>
+        <div class="footer-copyright">©2025 Charlton Brown Pty Ltd. Member of NIET Group.</div>
+        <div class="footer-codes">CRICOS 03822D | RTO 2508 | ABN 76 071 346 953</div>
       </div>
     </div>
   </div>
@@ -476,32 +148,9 @@
 <script>
 /* CONFIG */
 const CHECKIN_FLOW_URL = "https://default9d8868a5c1dc4786aff1f7d04646be.9a.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/9ed041ac7ca143a0b262334d9dfc13d5/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=il-cX-qHDZbGSxE2OnN56BK2jdJIgxWXFIStUm65G6g";
-const CHECKOUT_FLOW_URL = "https://default9d8868a5c1dc4786aff1f7d04646be.9a.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/2e4266def4fe44618e9eddd28221178c/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=NfMkFq1ITZSPcQNVmn6Ikt7OPS0NUA_Yp-Q9QP8TFoQ"
+const CHECKOUT_FLOW_URL = "https://default9d8868a5c1dc4786aff1f7d04646be.9a.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/2e4266def4fe44618e9eddd28221178c/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=NfMkFq1ITZSPcQNVmn6Ikt7OPS0NUA_Yp-Q9QP8TFoQ";
 const ID_REGEX = /^[0-9]{8,}$/;
 
-/* All available courses */
-const ALL_COURSES = [
-  "BSB30120 Certificate III in Business",
-  "BSB40120 Certificate IV in Business",
-  "BSB50120 Diploma of Business",
-  "BSB50120 Diploma of Business UniTrack",
-  "BSB50420 Diploma of Leadership and Management",
-  "BSB80120 Graduate Diploma of Management (Learning) UniTrack",
-  "SIT30821 Certificate III in Commercial Cookery",
-  "SIT40521 Certificate IV in Kitchen Management",
-  "SIT50422 Diploma of Hospitality Management",
-  "ICT50220 Diploma of Information Technology",
-  "ICT60220 Advanced Diploma of Information Technology (Telecommunications Network Engineering)",
-  "CHC43015 Certificate IV in Ageing Support",
-  "CHC33021 Certificate III in Individual Support",
-  "CHC52021 Diploma of Community Services",
-  "CHC30121 Certificate III in Early Childhood Education and Care",
-  "CHC50121 Diploma of Early Childhood Education and Care",
-  "HLT52021 Diploma of Remedial Massage",
-  "RII60520 Advanced Diploma of Civil Construction"
-];
-
-/* Trainers and their courses */
 const TRAINER_COURSES = {
   "Carlos Castellano": ["SIT30821 Certificate III in Commercial Cookery"],
   "Carol Ly": ["CHC43015 Certificate IV in Ageing Support", "CHC52021 Diploma of Community Services"],
@@ -535,31 +184,13 @@ const TRAINER_COURSES = {
   "Toriqul Mozumder": ["CHC33021 Certificate III in Individual Support", "CHC52021 Diploma of Community Services"]
 };
 
-/* Campus boundaries */
 const campuses = [
-  {
-    name:"Brisbane Campus 102 Adelaide Street",
-    coords:{lat:-27.468069512085428, lng:153.02471942376695},
-    radius:0.3
-  },
-  {
-    name:"Brisbane Campus 316 Adelaide Street",
-    coords:{lat:-27.465055267670685, lng:153.02871827605486},
-    radius:0.3
-  },
-  {
-    name:"Gold Coast Campus",
-    coords:{lat:-27.972534744233037, lng:153.41508200773305},
-    radius:0.3
-  },
-  {
-    name:"Hobart Campus",
-    coords:{lat:-42.884889723708625, lng:147.32545454150238},
-    radius:0.3
-  }
+  { name:"Brisbane Campus 102 Adelaide Street", coords:{lat:-27.468069512085428, lng:153.02471942376695}, radius:0.3 },
+  { name:"Brisbane Campus 316 Adelaide Street", coords:{lat:-27.465055267670685, lng:153.02871827605486}, radius:0.3 },
+  { name:"Gold Coast Campus", coords:{lat:-27.972534744233037, lng:153.41508200773305}, radius:0.3 },
+  { name:"Hobart Campus", coords:{lat:-42.884889723708625, lng:147.32545454150238}, radius:0.3 }
 ];
 
-/* GPS */
 let gpsReady=false,latestLat=null,latestLng=null,detectedCampus=null,activeSession=null,timerInterval=null;
 
 function haversine(lat1,lon1,lat2,lon2){
@@ -574,52 +205,14 @@ function onGPSSuccess(pos){
   latestLat=pos.coords.latitude;
   latestLng=pos.coords.longitude;
   gpsReady=true;
-  
   detectedCampus=null;
   for(let c of campuses){
     const d=haversine(latestLat,latestLng,c.coords.lat,c.coords.lng);
     if(d<=c.radius){detectedCampus=c;break;}
   }
-  
   updateButtonStates();
 }
-  /* NEW: Track completed check-ins */
-function getTodayKey(){
-  const today = new Date();
-  return `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
-}
 
-function hasCheckedInToday(studentId){
-  const todayKey = getTodayKey();
-  const checkInsToday = JSON.parse(localStorage.getItem('checkInsToday') || '{}');
-  return checkInsToday[todayKey] && checkInsToday[todayKey].includes(studentId.toUpperCase());
-}
-
-function recordCheckInToday(studentId){
-  const todayKey = getTodayKey();
-  const checkInsToday = JSON.parse(localStorage.getItem('checkInsToday') || '{}');
-  
-  if(!checkInsToday[todayKey]){
-    checkInsToday[todayKey] = [];
-  }
-  
-  if(!checkInsToday[todayKey].includes(studentId.toUpperCase())){
-    checkInsToday[todayKey].push(studentId.toUpperCase());
-  }
-  
-  // Clean up old dates (keep only last 7 days)
-  const allDates = Object.keys(checkInsToday);
-  const today = new Date();
-  allDates.forEach(dateKey => {
-    const checkDate = new Date(dateKey);
-    const daysDiff = Math.floor((today - checkDate) / (1000 * 60 * 60 * 24));
-    if(daysDiff > 7){
-      delete checkInsToday[dateKey];
-    }
-  });
-  
-  localStorage.setItem('checkInsToday', JSON.stringify(checkInsToday));
-}
 function onGPSError(err){
   gpsReady=false;
   updateButtonStates();
@@ -632,13 +225,10 @@ function startGPS(){
     return;
   }
   navigator.geolocation.watchPosition(onGPSSuccess,onGPSError,{
-    enableHighAccuracy:true,
-    timeout:10000,
-    maximumAge:5000
+    enableHighAccuracy:true, timeout:10000, maximumAge:5000
   });
 }
 
-/* UI */
 const elId=document.getElementById('studentId');
 const elName=document.getElementById('name');
 const elTrainer=document.getElementById('trainer');
@@ -654,13 +244,12 @@ const elTimeElapsed=document.getElementById('timeElapsed');
 function setMsg(txt,cls){
   elMsg.textContent=txt;
   elMsg.className='msg '+cls;
-  elMsg.style.display=''; // Clear inline style to let CSS take over
+  elMsg.style.display='';
 }
 
 function updateButtonStates(){
   const formValid = elId.value.trim() && elName.value.trim() && elTrainer.value && elCourse.value;
   const locationOk = gpsReady && detectedCampus;
-  
   if(activeSession){
     elBtnCheckIn.disabled = true;
     elBtnCheckOut.disabled = !formValid || !gpsReady;
@@ -670,28 +259,24 @@ function updateButtonStates(){
   }
 }
 
-/* Populate trainers */
+/* 填充老師選單 */
 const trainers = Object.keys(TRAINER_COURSES).sort();
 trainers.forEach(t => {
   const opt = document.createElement('option');
-  opt.value = t;
-  opt.textContent = t;
+  opt.value = t; opt.textContent = t;
   elTrainer.appendChild(opt);
 });
 
 elTrainer.addEventListener('change', () => {
   const selected = elTrainer.value;
   elCourse.innerHTML = '<option value="">— Select course —</option>';
-  
   if(selected && TRAINER_COURSES[selected]){
     TRAINER_COURSES[selected].forEach(c => {
       const opt = document.createElement('option');
-      opt.value = c;
-      opt.textContent = c;
+      opt.value = c; opt.textContent = c;
       elCourse.appendChild(opt);
     });
   }
-  
   updateButtonStates();
 });
 
@@ -699,103 +284,59 @@ elId.addEventListener('input', updateButtonStates);
 elName.addEventListener('input', updateButtonStates);
 elCourse.addEventListener('change', updateButtonStates);
 
-/* Session Management */
+/* --- 新增：自動填入邏輯 --- */
+function autoFillFromStorage() {
+  const savedId = localStorage.getItem('remembered_id');
+  const savedName = localStorage.getItem('remembered_name');
+  const savedTrainer = localStorage.getItem('remembered_trainer');
+  const savedCourse = localStorage.getItem('remembered_course');
+
+  if (savedId) elId.value = savedId;
+  if (savedName) elName.value = savedName;
+  if (savedTrainer) {
+    elTrainer.value = savedTrainer;
+    elTrainer.dispatchEvent(new Event('change')); // 觸發連動課程選單
+    setTimeout(() => {
+      if (savedCourse) elCourse.value = savedCourse;
+      updateButtonStates();
+    }, 100);
+  } else {
+    updateButtonStates();
+  }
+}
+
 function loadActiveSession(){
   const saved = localStorage.getItem('activeSession');
   if(saved){
     try{
       activeSession = JSON.parse(saved);
-      
-      // Populate form with saved session data
       elId.value = activeSession.studentId;
       elName.value = activeSession.name;
       elTrainer.value = activeSession.trainer;
-      
-      // Trigger trainer change to populate courses
       elTrainer.dispatchEvent(new Event('change'));
-      
-      // Wait a moment for courses to populate, then set course
       setTimeout(()=>{
         elCourse.value = activeSession.course;
         updateButtonStates();
       }, 50);
-      
       showSessionInfo();
       startTimer();
-      setMsg('Active session resumed. Fill in your details and click "Check Out" when done.','info');
-    }catch(e){
-      localStorage.removeItem('activeSession');
-    }
+      setMsg('Active session resumed.','info');
+    }catch(e){ localStorage.removeItem('activeSession'); }
+  } else {
+    autoFillFromStorage(); // 如果沒有正在進行的 Session，就嘗試填入記憶的個人資料
   }
 }
 
-function saveActiveSession(){
-  localStorage.setItem('activeSession', JSON.stringify(activeSession));
-}
-
-function clearActiveSession(){
-  localStorage.removeItem('activeSession');
-  activeSession = null;
-  if(timerInterval){
-    clearInterval(timerInterval);
-    timerInterval = null;
-  }
-}
-
-function showSessionInfo(){
-  elSessionInfo.classList.add('active');
-  elSessionCampus.textContent = activeSession.campus;
-  elSessionCheckIn.textContent = new Date(activeSession.checkInTime).toLocaleTimeString('en-AU', {
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: true
-  });
-}
-
-function hideSessionInfo(){
-  elSessionInfo.classList.remove('active');
-}
-
-/* Timer */
-function formatTime(seconds){
-  const h = Math.floor(seconds / 3600);
-  const m = Math.floor((seconds % 3600) / 60);
-  const s = seconds % 60;
-  return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-}
-
-function startTimer(){
-  if(timerInterval) clearInterval(timerInterval);
-  
-  function updateTimer(){
-    if(!activeSession) return;
-    const elapsed = Math.floor((Date.now() - activeSession.checkInTime) / 1000);
-    elTimeElapsed.textContent = formatTime(elapsed);
-  }
-  
-  updateTimer();
-  timerInterval = setInterval(updateTimer, 1000);
-}
-
-/* Check In */
 async function submitCheckIn(){
   const id=(elId.value||'').trim();
   const name=(elName.value||'').trim();
   const trainer=elTrainer.value;
   const course=elCourse.value;
-  
   elMsg.style.display='none';
-  
+
   if(!ID_REGEX.test(id)){setMsg('Please enter a valid Contact ID.','warn');return;}
-  
-  /* NEW: Check if already checked in today */
-  if(hasCheckedInToday(id)){
-    setMsg('⚠️ You have already checked in today. You can only check in once per day.','warn');
-    return;
-  }
-  if(!gpsReady||latestLat===null||latestLng===null){setMsg('Kindly ensure your location is enabled. Try again.','warn');startGPS();return;}
-  if(!detectedCampus){setMsg('You are not on campus.','err');return;}
-  if(activeSession){setMsg('⚠️ You already have an active session. Please check out first.','warn');return;}
+  if(!gpsReady||latestLat===null||latestLng===null){setMsg('Check location...','warn');startGPS();return;}
+  if(!detectedCampus){setMsg('Not on campus.','err');return;}
 
   elBtnCheckIn.disabled=true;
   elBtnCheckIn.textContent='Checking In…';
@@ -806,167 +347,91 @@ async function submitCheckIn(){
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
-        StudentID:id,
-        Name:name,
-        Trainer:trainer,
-        Course:course,
-        Campus:detectedCampus.name,
-        Latitude:latestLat,
-        Longitude:latestLng,
+        StudentID:id, Name:name, Trainer:trainer, Course:course,
+        Campus:detectedCampus.name, Latitude:latestLat, Longitude:latestLng,
         CheckInTime: new Date(checkInTime).toISOString()
       })
     });
     
-    console.log('Check-in response status:', res.status);
-    console.log('Response OK:', res.ok);
-    
-    let data = {};
-    try {
-      data = await res.json();
-      console.log('Response data:', data);
-    } catch(e) {
-      console.log('Failed to parse response JSON:', e);
-    }
-    
-    if(res.ok || res.status === 200 || res.status === 202 || res.status === 204){
-      activeSession = {
-        studentId: id,
-        name: name,
-        trainer: trainer,
-        course: course,
-        campus: detectedCampus.name,
-        checkInTime: checkInTime,
-        checkInLat: latestLat,
-        checkInLng: latestLng
-      };
-      recordCheckInToday(id);
+    if(res.ok || res.status < 300){
+      // --- 成功簽到後，更新記憶 ---
+      localStorage.setItem('remembered_id', id);
+      localStorage.setItem('remembered_name', name);
+      localStorage.setItem('remembered_trainer', trainer);
+      localStorage.setItem('remembered_course', course);
 
-      saveActiveSession();
+      activeSession = { studentId: id, name: name, trainer: trainer, course: course, campus: detectedCampus.name, checkInTime: checkInTime, checkInLat: latestLat, checkInLng: latestLng };
+      localStorage.setItem('activeSession', JSON.stringify(activeSession));
       showSessionInfo();
       startTimer();
       updateButtonStates();
-      setMsg('Checked in successfully! Class time started.','ok');
-    }else if(res.status === 409){
-      // Handle duplicate check-in from server
-      console.log('Duplicate check-in detected (409). Showing warning message.');
-      recordCheckInToday(id); // Record it locally too
-      setMsg('You have already checked in today. You can only check in once per day.','warn');
-    }else{
-      setMsg('❌ '+(data.message||`Check-in failed (${res.status}).`),'err');
+      setMsg('Checked in successfully!','ok');
+    } else {
+      setMsg('❌ Check-in failed.','err');
     }
-  }catch(e){
-    setMsg('❌ Network error. Please try again.','err');
-  }finally{
-    elBtnCheckIn.disabled=false;
-    elBtnCheckIn.textContent='➜ Check In';
-    updateButtonStates();
-  }
+  }catch(e){ setMsg('❌ Network error.','err'); }
+  finally{ elBtnCheckIn.textContent='➜ Check In'; updateButtonStates(); }
 }
 
-/* Check Out */
 async function submitCheckOut(){
   const id=(elId.value||'').trim();
-  const name=(elName.value||'').trim();
-  const trainer=elTrainer.value;
-  const course=elCourse.value;
-  
-  if(!activeSession){
-    setMsg('No active session found. Please check in first.','err');
-    return;
+  if(!activeSession || id.toUpperCase() !== activeSession.studentId.toUpperCase()){
+    setMsg('ID mismatch or no session.','err'); return;
   }
-  
-  if(id.toUpperCase() !== activeSession.studentId.toUpperCase()){
-    setMsg('Contact ID does not match active session.','err');
-    return;
-  }
-  
-  elMsg.style.display='none';
-  
-  if(!gpsReady){
-    setMsg('⚠️ Getting your location for checkout...','warn');
-    startGPS();
-    setTimeout(()=>{
-      if(gpsReady) submitCheckOut();
-    }, 2000);
-    return;
-  }
-  
   elBtnCheckOut.disabled=true;
   elBtnCheckOut.textContent='Checking Out…';
   
   try{
     const checkOutTime = Date.now();
-    const durationSeconds = Math.floor((checkOutTime - activeSession.checkInTime) / 1000);
-    const durationMinutes = Math.floor(durationSeconds / 60);
+    const durationMinutes = Math.floor((checkOutTime - activeSession.checkInTime) / 60000);
     const hours = Math.floor(durationMinutes / 60);
     const minutes = durationMinutes % 60;
-    const hoursDecimal = parseFloat((durationMinutes / 60).toFixed(2));
-    
-    // NEW: Round hours - if >=30 minutes, round UP to next hour
-    let roundedHours;
-    if (minutes >= 30) {
-        roundedHours = hours + 1;  // Round UP to next hour
-    } else {
-        roundedHours = hours;      // Keep whole hours only
-    }
-    
+    let roundedHours = minutes >= 30 ? hours + 1 : hours;
+
     const res=await fetch(CHECKOUT_FLOW_URL,{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
-        StudentID: activeSession.studentId,
-        Name: activeSession.name,
-        Trainer: activeSession.trainer,
-        Course: activeSession.course,
-        Campus: activeSession.campus,
-        CheckInTime: new Date(activeSession.checkInTime).toISOString(),
-        CheckOutTime: new Date(checkOutTime).toISOString(),
-        CheckInLatitude: activeSession.checkInLat,
-        CheckInLongitude: activeSession.checkInLng,
-        CheckOutLatitude: latestLat,
-        CheckOutLongitude: latestLng,
-        DurationSeconds: durationSeconds,
-        DurationMinutes: durationMinutes,
-        DurationFormatted: `${hours}h ${minutes}m`,
-        RawHours: hoursDecimal,
-        Hours: roundedHours
+        StudentID: activeSession.studentId, Name: activeSession.name, Trainer: activeSession.trainer, Course: activeSession.course, Campus: activeSession.campus,
+        CheckInTime: new Date(activeSession.checkInTime).toISOString(), CheckOutTime: new Date(checkOutTime).toISOString(),
+        CheckInLatitude: activeSession.checkInLat, CheckInLongitude: activeSession.checkInLng,
+        CheckOutLatitude: latestLat, CheckOutLongitude: latestLng,
+        DurationMinutes: durationMinutes, DurationFormatted: `${hours}h ${minutes}m`, Hours: roundedHours
       })
     });
     
-    const data=await res.json().catch(()=>({}));
-    
-    if(res.ok || res.status === 200 || res.status === 202 || res.status === 204){
-      clearActiveSession();
+    if(res.ok || res.status < 300){
+      localStorage.removeItem('activeSession');
+      activeSession = null;
+      if(timerInterval) clearInterval(timerInterval);
       hideSessionInfo();
-      
-      setMsg(`Checked out successfully! Total class time: ${hours}h ${minutes}m (Recorded: ${roundedHours} hours)`,'ok');
-      
-      elId.value = '';
-      elName.value = '';
-      elTrainer.value = '';
-      elCourse.innerHTML = '<option value="">— Select course —</option>';
-      updateButtonStates();
-    }else{
-      setMsg('❌ '+(data.message||`Check-out failed (${res.status}).`),'err');
+      setMsg(`Checked out! Recorded: ${roundedHours} hours`,'ok');
+      // 清空目前輸入，但保留 localStorage 的記憶以便下次自動填入
+      elId.value = ''; elName.value = ''; elTrainer.value = ''; elCourse.innerHTML = '<option value="">— Select course —</option>';
+      autoFillFromStorage(); // 簽退後重新填入記憶中的資料，讓學生下次來更方便
     }
-  }catch(e){
-    setMsg('❌ Network error. Please try again.','err');
-    console.error('Checkout error:', e);
-  }finally{
-    // Always clear session on checkout attempt
-    if(activeSession){
-      clearActiveSession();
-      hideSessionInfo();
-      elId.value = '';
-      elName.value = '';
-      elTrainer.value = '';
-      elCourse.innerHTML = '<option value="">— Select course —</option>';
-    }
-    
-    elBtnCheckOut.disabled=false;
-    elBtnCheckOut.textContent='✓ Check Out';
-    updateButtonStates();
-  }
+  }catch(e){ setMsg('❌ Network error.','err'); }
+  finally{ elBtnCheckOut.textContent='✓ Check Out'; updateButtonStates(); }
+}
+
+function showSessionInfo(){
+  elSessionInfo.classList.add('active');
+  elSessionCampus.textContent = activeSession.campus;
+  elSessionCheckIn.textContent = new Date(activeSession.checkInTime).toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit', hour12: true });
+}
+function hideSessionInfo(){ elSessionInfo.classList.remove('active'); }
+function formatTime(seconds){
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = seconds % 60;
+  return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+function startTimer(){
+  if(timerInterval) clearInterval(timerInterval);
+  timerInterval = setInterval(()=>{
+    if(!activeSession) return;
+    elTimeElapsed.textContent = formatTime(Math.floor((Date.now() - activeSession.checkInTime) / 1000));
+  }, 1000);
 }
 
 /* Initialize */
