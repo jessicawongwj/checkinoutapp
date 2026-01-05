@@ -48,7 +48,6 @@
   .session-info.active{ display:block; }
   .time-display{ text-align:center; font-size:32px; font-weight:800; color:var(--brand); margin-top:10px; font-family:'Playfair Display',serif; }
   
-  /* Instruction Style */
   .gps-help{ margin-top:20px; font-size:12px; color:#666; border-top:1px dashed #ccc; padding-top:15px; }
   details{ cursor:pointer; background:#f9fafb; padding:10px; border-radius:8px; border:1px solid #eee; margin-top:10px; }
   summary{ font-weight:600; color:#444; outline:none; }
@@ -104,14 +103,13 @@
       <div class="gps-help">
         <p style="font-weight:bold; color:var(--brand); margin-bottom:5px;">📍 Having trouble with Location?</p>
         <p style="margin:0 0 10px;">Your location is used <b>only at the moment of Check-in/out</b> to verify campus presence. We do not track your location.</p>
-        
         <details>
           <summary>How to enable Location?</summary>
           <div style="padding-top:10px; line-height:1.6;">
             <b>🍎 iOS (iPhone):</b><br>
             Settings > Privacy & Security > Location Services (On) > Safari Websites > "While Using the App".<br><br>
             <b>🤖 Android:</b><br>
-            Settings > Location (On) > Chrome > Permissions > Location > "Allow only while using app".
+            Settings > Location (On) > Chrome App > Permissions > Location > "Allow only while using app".
           </div>
         </details>
       </div>
@@ -121,14 +119,13 @@
         <div class="footer-codes">CRICOS 03822D | RTO 2508 | ABN 76 071 346 953</div>
         <div class="footer-acknowledgment">
           Charlton Brown acknowledges the Traditional Owners of the lands on which we work and learn. 
-          We pay our respects to Elders past, present and emerging.
+          We pay our respects to Elders both past, present and future; and extend that respect to all Aboriginal and Torres Strait Islander Peoples.
         </div>
       </div>
     </div>
   </div>
 
 <script>
-/* 1. 名單資料庫 (已補全) */
 const TRAINER_COURSES = {
   "Carlos Castellano": ["SIT30821 Certificate III in Commercial Cookery"],
   "Carol Ly": ["CHC43015 Certificate IV in Ageing Support", "CHC52021 Diploma of Community Services"],
@@ -190,13 +187,10 @@ function updateButtonStates(){
   }
 }
 
-// 核心：定時器與5點自動截止
 function startTimer() {
   if (timerInterval) clearInterval(timerInterval);
   timerInterval = setInterval(() => {
     if (!activeSession) return;
-    
-    // 檢查是否到達下午 5 點
     if (new Date().getHours() >= 17) {
       clearInterval(timerInterval);
       localStorage.removeItem('activeSession');
@@ -206,23 +200,20 @@ function startTimer() {
       updateButtonStates();
       return;
     }
-
     const sec = Math.floor((Date.now() - activeSession.checkInTime)/1000);
     const h=Math.floor(sec/3600), m=Math.floor((sec%3600)/60), s=sec%60;
     document.getElementById('timeElapsed').textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
   }, 1000);
 }
 
-// GPS 邏輯
-function haversine(lat1,lon1,lat2,lon2){
-  const R=6371; const dLat=(lat2-lat1)*Math.PI/180; const dLon=(lon2-lon1)*Math.PI/180;
-  const a=Math.sin(dLat/2)**2+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
-  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
-}
-
 function onGPSSuccess(pos){
   latestLat = pos.coords.latitude; latestLng = pos.coords.longitude;
   gpsReady = true;
+  const haversine = (lat1,lon1,lat2,lon2) => {
+    const R=6371; const dLat=(lat2-lat1)*Math.PI/180; const dLon=(lon2-lon1)*Math.PI/180;
+    const a=Math.sin(dLat/2)**2+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
+    return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+  };
   detectedCampus = campuses.find(c => haversine(latestLat, latestLng, c.lat, c.lng) <= c.radius);
   if(!detectedCampus && !activeSession) setMsg("📍 You are not on campus. Check-in disabled.", "warn");
   else if(detectedCampus) document.getElementById('msg').style.display = 'none';
@@ -230,14 +221,12 @@ function onGPSSuccess(pos){
 }
 
 function onGPSError(err){ 
-  gpsReady = false; 
-  updateButtonStates(); 
+  gpsReady = false; updateButtonStates(); 
   let m = "<b>Location Error:</b> ";
   m += (err.code === 1) ? "Access denied. Please enable Location in settings." : "Unable to find your location.";
   setMsg(m, "err"); 
 }
 
-// 初始化選單
 Object.keys(TRAINER_COURSES).sort().forEach(t => {
   const opt = document.createElement('option'); opt.value = t; opt.textContent = t; elTrainer.appendChild(opt);
 });
@@ -252,7 +241,6 @@ elTrainer.onchange = () => {
 
 [elId, elName, elCourse].forEach(el => el.oninput = updateButtonStates);
 
-// 提交簽到
 async function submitCheckIn(){
   if (new Date().getHours() >= 17) { setMsg("Check-in is unavailable after 5:00 PM.", "warn"); return; }
   setMsg("⏳ Submitting...", "info");
@@ -279,7 +267,6 @@ async function submitCheckIn(){
   } catch(e) { setMsg("❌ Network error.", "err"); elBtnIn.disabled = false; }
 }
 
-// 提交簽退
 async function submitCheckOut(){
   setMsg("⏳ Checking out...", "info");
   elBtnOut.disabled = true;
@@ -300,14 +287,12 @@ async function submitCheckOut(){
   } catch(e) { setMsg("❌ Network error.", "err"); elBtnOut.disabled = false; }
 }
 
-// 初始化加載與自動清理
 function init() {
   const saved = localStorage.getItem('activeSession');
   const now = new Date();
   if (saved) {
     const session = JSON.parse(saved);
     const sessionDate = new Date(session.checkInTime);
-    // 檢查是否跨天或過時
     if (sessionDate.toDateString() !== now.toDateString() || now.getHours() >= 17) {
       localStorage.removeItem('activeSession');
     } else {
@@ -317,7 +302,6 @@ function init() {
       startTimer();
     }
   }
-  // 恢復記憶資訊
   const r_id = localStorage.getItem('r_id'), r_name = localStorage.getItem('r_name'), r_trainer = localStorage.getItem('r_trainer'), r_course = localStorage.getItem('r_course');
   if(r_id) elId.value = r_id; if(r_name) elName.value = r_name;
   if(r_trainer) {
