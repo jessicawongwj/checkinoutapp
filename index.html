@@ -48,6 +48,11 @@
   .session-info.active{ display:block; }
   .time-display{ text-align:center; font-size:32px; font-weight:800; color:var(--brand); margin-top:10px; font-family:'Playfair Display',serif; }
   
+  /* Instruction Style */
+  .gps-help{ margin-top:20px; font-size:12px; color:#666; border-top:1px dashed #ccc; padding-top:15px; }
+  details{ cursor:pointer; background:#f9fafb; padding:10px; border-radius:8px; border:1px solid #eee; margin-top:10px; }
+  summary{ font-weight:600; color:#444; outline:none; }
+
   .footer-detailed{ text-align:center; margin-top:24px; padding-top:20px; border-top:1px solid #e5e7eb; }
   .footer-copyright{ color:#2D1B4E; font-size:11px; font-weight:600; margin-bottom:8px; line-height:1.5; }
   .footer-codes{ color:#6b7280; font-size:10px; margin-bottom:12px; line-height:1.4; }
@@ -96,18 +101,34 @@
 
       <div id="msg" class="msg"></div>
 
+      <div class="gps-help">
+        <p style="font-weight:bold; color:var(--brand); margin-bottom:5px;">📍 Having trouble with Location?</p>
+        <p style="margin:0 0 10px;">Your location is used <b>only at the moment of Check-in/out</b> to verify campus presence. We do not track your location.</p>
+        
+        <details>
+          <summary>How to enable Location?</summary>
+          <div style="padding-top:10px; line-height:1.6;">
+            <b>🍎 iOS (iPhone):</b><br>
+            Settings > Privacy & Security > Location Services (On) > Safari Websites > "While Using the App".<br><br>
+            <b>🤖 Android:</b><br>
+            Settings > Location (On) > Chrome > Permissions > Location > "Allow only while using app".
+          </div>
+        </details>
+      </div>
+
       <div class="footer-detailed">
         <div class="footer-copyright">©2025 Charlton Brown Pty Ltd. Member of NIET Group.</div>
         <div class="footer-codes">CRICOS 03822D | RTO 2508 | ABN 76 071 346 953</div>
         <div class="footer-acknowledgment">
-          Charlton Brown acknowledges the Traditional Custodians of the lands on which we work and live.
-          We pay our respects to Elders both past, present and future; and extend that respect to all Aboriginal and Torres Strait Islander Peoples.
+          Charlton Brown acknowledges the Traditional Owners of the lands on which we work and learn. 
+          We pay our respects to Elders past, present and emerging.
         </div>
       </div>
     </div>
   </div>
 
 <script>
+/* 1. 名單資料庫 (已補全) */
 const TRAINER_COURSES = {
   "Carlos Castellano": ["SIT30821 Certificate III in Commercial Cookery"],
   "Carol Ly": ["CHC43015 Certificate IV in Ageing Support", "CHC52021 Diploma of Community Services"],
@@ -156,7 +177,7 @@ const elId=document.getElementById('studentId'), elName=document.getElementById(
 
 function setMsg(txt, cls){
   const el = document.getElementById('msg');
-  el.textContent = txt; el.className = 'msg ' + cls; el.style.display = 'block';
+  el.innerHTML = txt; el.className = 'msg ' + cls; el.style.display = 'block';
 }
 
 function updateButtonStates(){
@@ -169,38 +190,19 @@ function updateButtonStates(){
   }
 }
 
-// 自动清理过时 Session (下午 5 点以后或隔天)
-function checkAutoTimeout() {
-  const saved = localStorage.getItem('activeSession');
-  if (!saved) return;
-
-  const session = JSON.parse(saved);
-  const now = new Date();
-  const sessionDate = new Date(session.checkInTime);
-
-  // 1. 如果是隔天 2. 如果当前时间已经过了下午 5 点
-  if (sessionDate.toDateString() !== now.toDateString() || now.getHours() >= 17) {
-    localStorage.removeItem('activeSession');
-    activeSession = null;
-    document.getElementById('sessionInfo').classList.remove('active');
-    setMsg("Class ended at 5:00 PM. System has auto-cleared previous session.", "info");
-    return true; 
-  }
-  return false;
-}
-
+// 核心：定時器與5點自動截止
 function startTimer() {
   if (timerInterval) clearInterval(timerInterval);
   timerInterval = setInterval(() => {
     if (!activeSession) return;
     
-    // 每秒检查是否到 5 点
+    // 檢查是否到達下午 5 點
     if (new Date().getHours() >= 17) {
       clearInterval(timerInterval);
       localStorage.removeItem('activeSession');
       activeSession = null;
       document.getElementById('sessionInfo').classList.remove('active');
-      setMsg("Class ended at 5:00 PM. You have been auto-checked out.", "ok");
+      setMsg("Class ended at 5:00 PM. You have been auto-checked out.", "info");
       updateButtonStates();
       return;
     }
@@ -211,7 +213,7 @@ function startTimer() {
   }, 1000);
 }
 
-// GPS 与 初始化逻辑
+// GPS 邏輯
 function haversine(lat1,lon1,lat2,lon2){
   const R=6371; const dLat=(lat2-lat1)*Math.PI/180; const dLon=(lon2-lon1)*Math.PI/180;
   const a=Math.sin(dLat/2)**2+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
@@ -227,9 +229,15 @@ function onGPSSuccess(pos){
   updateButtonStates();
 }
 
-function onGPSError(){ gpsReady = false; updateButtonStates(); setMsg("GPS Error: Please enable location services.", "err"); }
+function onGPSError(err){ 
+  gpsReady = false; 
+  updateButtonStates(); 
+  let m = "<b>Location Error:</b> ";
+  m += (err.code === 1) ? "Access denied. Please enable Location in settings." : "Unable to find your location.";
+  setMsg(m, "err"); 
+}
 
-// 初始化表单选项
+// 初始化選單
 Object.keys(TRAINER_COURSES).sort().forEach(t => {
   const opt = document.createElement('option'); opt.value = t; opt.textContent = t; elTrainer.appendChild(opt);
 });
@@ -244,6 +252,7 @@ elTrainer.onchange = () => {
 
 [elId, elName, elCourse].forEach(el => el.oninput = updateButtonStates);
 
+// 提交簽到
 async function submitCheckIn(){
   if (new Date().getHours() >= 17) { setMsg("Check-in is unavailable after 5:00 PM.", "warn"); return; }
   setMsg("⏳ Submitting...", "info");
@@ -270,6 +279,7 @@ async function submitCheckIn(){
   } catch(e) { setMsg("❌ Network error.", "err"); elBtnIn.disabled = false; }
 }
 
+// 提交簽退
 async function submitCheckOut(){
   setMsg("⏳ Checking out...", "info");
   elBtnOut.disabled = true;
@@ -282,39 +292,41 @@ async function submitCheckOut(){
     if(res.ok){
       localStorage.removeItem('activeSession');
       activeSession = null;
-      hideSessionAndClearForm();
+      document.getElementById('sessionInfo').classList.remove('active');
+      if(timerInterval) clearInterval(timerInterval);
       setMsg("✅ Success!", "ok");
+      updateButtonStates();
     } else { setMsg("❌ Error.", "err"); elBtnOut.disabled = false; }
   } catch(e) { setMsg("❌ Network error.", "err"); elBtnOut.disabled = false; }
 }
 
-function hideSessionAndClearForm() {
-  document.getElementById('sessionInfo').classList.remove('active');
-  if(timerInterval) clearInterval(timerInterval);
-  elId.value = localStorage.getItem('r_id') || '';
-  elName.value = localStorage.getItem('r_name') || '';
-  updateButtonStates();
-}
-
-// 初始化加载
-if (!checkAutoTimeout()) {
+// 初始化加載與自動清理
+function init() {
   const saved = localStorage.getItem('activeSession');
+  const now = new Date();
   if (saved) {
-    activeSession = JSON.parse(saved);
-    document.getElementById('sessionInfo').classList.add('active');
-    document.getElementById('sessionCampus').textContent = activeSession.campus;
-    startTimer();
+    const session = JSON.parse(saved);
+    const sessionDate = new Date(session.checkInTime);
+    // 檢查是否跨天或過時
+    if (sessionDate.toDateString() !== now.toDateString() || now.getHours() >= 17) {
+      localStorage.removeItem('activeSession');
+    } else {
+      activeSession = session;
+      document.getElementById('sessionInfo').classList.add('active');
+      document.getElementById('sessionCampus').textContent = activeSession.campus;
+      startTimer();
+    }
+  }
+  // 恢復記憶資訊
+  const r_id = localStorage.getItem('r_id'), r_name = localStorage.getItem('r_name'), r_trainer = localStorage.getItem('r_trainer'), r_course = localStorage.getItem('r_course');
+  if(r_id) elId.value = r_id; if(r_name) elName.value = r_name;
+  if(r_trainer) {
+    elTrainer.value = r_trainer; elTrainer.dispatchEvent(new Event('change'));
+    setTimeout(() => { if(r_course) elCourse.value = r_course; updateButtonStates(); }, 150);
   }
 }
 
-// 填充用户信息记忆
-const r_id = localStorage.getItem('r_id'), r_name = localStorage.getItem('r_name'), r_trainer = localStorage.getItem('r_trainer'), r_course = localStorage.getItem('r_course');
-if(r_id) elId.value = r_id; if(r_name) elName.value = r_name;
-if(r_trainer) {
-  elTrainer.value = r_trainer; elTrainer.dispatchEvent(new Event('change'));
-  setTimeout(() => { if(r_course) elCourse.value = r_course; updateButtonStates(); }, 150);
-}
-
+init();
 navigator.geolocation.watchPosition(onGPSSuccess, onGPSError, {enableHighAccuracy:true});
 </script>
 </body>
