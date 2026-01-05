@@ -48,8 +48,8 @@
   .session-info.active{ display:block; }
   .time-display{ text-align:center; font-size:32px; font-weight:800; color:var(--brand); margin-top:10px; font-family:'Playfair Display',serif; }
   
-  .gps-help{ margin-top:20px; font-size:12px; color:#666; border-top:1px dashed #ccc; padding-top:15px; }
-  details{ cursor:pointer; background:#f9fafb; padding:10px; border-radius:8px; border:1px solid #eee; margin-top:10px; }
+  .help-section{ margin-top:20px; font-size:12px; color:#666; border-top:1px dashed #ccc; padding-top:15px; }
+  details{ cursor:pointer; background:#f9fafb; padding:10px; border-radius:8px; border:1px solid #eee; margin-top:8px; }
   summary{ font-weight:600; color:#444; outline:none; }
 
   .footer-detailed{ text-align:center; margin-top:24px; padding-top:20px; border-top:1px solid #e5e7eb; }
@@ -67,11 +67,11 @@
         <img src="Charlton-Brown-2020-Brand_Logo-with-Slogan-1024x200.png" alt="Charlton Brown">
       </div>
       <h1>Attendance Check-In</h1>
-      <p class="muted">Please enable location for campus verification. Your info will be remembered for next time.</p>
+      <p class="muted">Ensure your location is enabled. Your 8-digit Student ID can be found in aXcelerate.</p>
 
       <form onsubmit="return false;">
-        <label>Contact ID</label>
-        <input id="studentId" inputmode="numeric" placeholder="e.g. 13579666" required />
+        <label>aXcelerate Contact ID (8 Digits)</label>
+        <input id="studentId" type="text" inputmode="numeric" maxlength="8" placeholder="e.g. 12345678" required />
 
         <label>Full Name</label>
         <input id="name" placeholder="e.g. Wilson So" required />
@@ -100,16 +100,24 @@
 
       <div id="msg" class="msg"></div>
 
-      <div class="gps-help">
-        <p style="font-weight:bold; color:var(--brand); margin-bottom:5px;">📍 Having trouble with Location?</p>
-        <p style="margin:0 0 10px;">Your location is used <b>only at the moment of Check-in/out</b> to verify campus presence. We do not track your location.</p>
+      <div class="help-section">
+        <p style="font-weight:bold; color:var(--brand); margin-bottom:5px;">📍 Need Help?</p>
+        
         <details>
-          <summary>How to enable Location?</summary>
+          <summary style="color:#2563eb;">How to find my Student ID?</summary>
+          <div style="padding-top:10px; line-height:1.6; color:#444;">
+            1. Login to your <b>aXcelerate</b> portal.<br>
+            2. Click on your <b>Profile / User Icon</b>.<br>
+            3. You'll see your <b>8-digit student number</b> there.
+          </div>
+        </details>
+
+        <details>
+          <summary>Trouble with Location / GPS?</summary>
           <div style="padding-top:10px; line-height:1.6;">
-            <b>🍎 iOS (iPhone):</b><br>
-            Settings > Privacy & Security > Location Services (On) > Safari Websites > "While Using the App".<br><br>
-            <b>🤖 Android:</b><br>
-            Settings > Location (On) > Chrome App > Permissions > Location > "Allow only while using app".
+            Your location is used <b>only at the moment of Check-in/out</b>. We do not track you.<br><br>
+            <b>🍎 iOS (iPhone):</b> Settings > Privacy > Location Services (On) > Safari > "While Using the App".<br><br>
+            <b>🤖 Android:</b> Settings > Location (On) > Chrome > Permissions > Location > "Allow only while using app".
           </div>
         </details>
       </div>
@@ -178,7 +186,8 @@ function setMsg(txt, cls){
 }
 
 function updateButtonStates(){
-  const filled = elId.value && elName.value && elTrainer.value && elCourse.value;
+  const isIdValid = elId.value.trim().length === 8;
+  const filled = isIdValid && elName.value.trim() && elTrainer.value && elCourse.value;
   if(activeSession){
     elBtnIn.disabled = true; elBtnOut.disabled = !gpsReady;
   } else {
@@ -196,7 +205,7 @@ function startTimer() {
       localStorage.removeItem('activeSession');
       activeSession = null;
       document.getElementById('sessionInfo').classList.remove('active');
-      setMsg("Class ended at 5:00 PM. You have been auto-checked out.", "info");
+      setMsg("Class ended at 5:00 PM. Auto-checked out.", "info");
       updateButtonStates();
       return;
     }
@@ -242,7 +251,7 @@ elTrainer.onchange = () => {
 [elId, elName, elCourse].forEach(el => el.oninput = updateButtonStates);
 
 async function submitCheckIn(){
-  if (new Date().getHours() >= 17) { setMsg("Check-in is unavailable after 5:00 PM.", "warn"); return; }
+  if (new Date().getHours() >= 17) { setMsg("Check-in unavailable after 5 PM.", "warn"); return; }
   setMsg("⏳ Submitting...", "info");
   elBtnIn.disabled = true;
   try {
