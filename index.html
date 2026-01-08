@@ -175,6 +175,7 @@ const campuses = [
   { name:"Brisbane 102 Adelaide", lat:-27.4680, lng:153.0247, radius:0.3 },
   { name:"Brisbane 316 Adelaide", lat:-27.4650, lng:153.0287, radius:0.3 },
   { name:"Gold Coast Campus", lat:-27.9725, lng:153.4150, radius:0.3 },
+  { name:"Ruby Kitchen", lat:-27.9944, lng:153.4276, radius:0.3 },
   { name:"Hobart Campus", lat:-42.8848, lng:147.3254, radius:0.3 }
 ];
 
@@ -303,7 +304,7 @@ function init() {
   if (saved) {
     const session = JSON.parse(saved);
     const sessionDate = new Date(session.checkInTime);
-    if (sessionDate.toDateString() !== now.toDateString() || now.getHours() >= 17) {
+    if (sessionDate.toDateString() !== now.toDateString() || now.getHours() >= 18) {
       localStorage.removeItem('activeSession');
     } else {
       activeSession = session;
