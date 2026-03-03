@@ -58,13 +58,17 @@
   .footer-acknowledgment{ color:#555; font-size:10px; line-height:1.6; font-style:italic; padding:12px; background:#f9fafb; border-radius:8px; margin-top:12px; }
   .logo-container{ text-align:left; margin-bottom:20px; }
   .logo-container img{ max-width:280px; height:auto; }
+  
+  .checkbox-container { display: flex; align-items: flex-start; gap: 10px; margin-top: 15px; cursor: pointer; }
+  .checkbox-container input { width: auto; margin-top: 4px; }
+  .checkbox-text { font-size: 12px; color: #444; line-height: 1.4; }
 </style>
 </head>
 <body>
   <div class="wrap">
     <div class="card">
       <div class="logo-container">
-        <img src="Charlton-Brown-2020-Brand_Logo-with-Slogan-1024x200.png" alt="Charlton Brown">
+        <img src="Charlton-Brown-Logo.png" alt="Charlton Brown">
       </div>
       <h1>Attendance Check-In</h1>
       <p class="muted">Ensure your location is enabled and your Student ID matches your <b>aXcelerate ID</b>. 
@@ -87,6 +91,13 @@
             <select id="course" required><option value="">— Select —</option></select>
           </div>
         </div>
+
+        <label class="checkbox-container">
+          <input type="checkbox" id="declaration" onchange="updateButtonStates()">
+          <span class="checkbox-text">
+            I declare that I am currently on campus/at my designated work placement location and the information provided is true and correct. I understand that providing false attendance information is a breach of the Student Code of Conduct.
+          </span>
+        </label>
 
         <div class="button-row">
           <button type="button" id="btnCheckIn" class="btn-checkin" disabled onclick="submitCheckIn()">➜ Check In</button>
@@ -160,7 +171,6 @@ const TRAINER_COURSES = {
   "Richard LIM": ["BSB30120 Certificate III in Business", "BSB80120 Graduate Diploma of Management (Learning) UniTrack"],
   "Robert Sauer": ["SIT30821 Certificate III in Commercial Cookery", "SIT40521 Certificate IV in Kitchen Management"],
   "Rona": ["SIT30821 Certificate III in Commercial Cookery", "SIT40521 Certificate IV in Kitchen Management"],
-  "Rosha Huang": ["HLT52021 Diploma of Remedial Massage"],
   "Ruying Shao": ["SIT50422 Diploma of Hospitality Management"],
   "Sherwin Thiarhia": ["CHC33021 Certificate III in Individual Support", "CHC43015 Certificate IV in Ageing Support"],
   "Tanya Caterson": ["SIT30821 Certificate III in Commercial Cookery"],
@@ -175,12 +185,12 @@ const campuses = [
   { name:"Brisbane 102 Adelaide", lat:-27.4680, lng:153.0247, radius:0.3 },
   { name:"Brisbane 316 Adelaide", lat:-27.4650, lng:153.0287, radius:0.3 },
   { name:"Gold Coast Campus", lat:-27.9725, lng:153.4150, radius:0.3 },
-  { name:"Ruby Kitchen", lat:-27.9944, lng:153.4276, radius:0.3 },
-  { name:"Hobart Campus", lat:-42.8848, lng:147.3254, radius:0.3 }
+  { name:"Hobart Campus", lat:-42.8848, lng:147.3254, radius:0.3 },
+  { name:"Ruby Kitchen (Surfers Paradise)", lat:-27.9972, lng:153.4286, radius:0.3 }
 ];
 
 let gpsReady=false, latestLat=null, latestLng=null, detectedCampus=null, activeSession=null, timerInterval=null;
-const elId=document.getElementById('studentId'), elName=document.getElementById('name'), elTrainer=document.getElementById('trainer'), elCourse=document.getElementById('course'), elBtnIn=document.getElementById('btnCheckIn'), elBtnOut=document.getElementById('btnCheckOut');
+const elId=document.getElementById('studentId'), elName=document.getElementById('name'), elTrainer=document.getElementById('trainer'), elCourse=document.getElementById('course'), elBtnIn=document.getElementById('btnCheckIn'), elBtnOut=document.getElementById('btnCheckOut'), elDecl=document.getElementById('declaration');
 
 function setMsg(txt, cls){
   const el = document.getElementById('msg');
@@ -190,10 +200,12 @@ function setMsg(txt, cls){
 function updateButtonStates(){
   const isIdValid = elId.value.trim().length === 8;
   const filled = isIdValid && elName.value.trim() && elTrainer.value && elCourse.value;
+  const declared = elDecl.checked;
+  
   if(activeSession){
     elBtnIn.disabled = true; elBtnOut.disabled = !gpsReady;
   } else {
-    elBtnIn.disabled = !(filled && gpsReady && detectedCampus);
+    elBtnIn.disabled = !(filled && gpsReady && detectedCampus && declared);
     elBtnOut.disabled = true;
   }
 }
@@ -304,7 +316,7 @@ function init() {
   if (saved) {
     const session = JSON.parse(saved);
     const sessionDate = new Date(session.checkInTime);
-    if (sessionDate.toDateString() !== now.toDateString() || now.getHours() >= 18) {
+    if (sessionDate.toDateString() !== now.toDateString() || now.getHours() >= 17) {
       localStorage.removeItem('activeSession');
     } else {
       activeSession = session;
