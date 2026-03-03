@@ -48,9 +48,19 @@
   .session-info.active{ display:block; }
   .time-display{ text-align:center; font-size:32px; font-weight:800; color:var(--brand); margin-top:10px; font-family:'Playfair Display',serif; }
   
-  .declaration-box{ display:flex; align-items:flex-start; gap:10px; margin-top:20px; padding:12px; background:#f9fafb; border:1px solid #d8dee9; border-radius:12px; }
-  .declaration-box input[type="checkbox"]{ width:20px; height:20px; margin-top:2px; cursor:pointer; }
-  .declaration-box label{ display:inline; margin:0; font-size:12px; font-weight:400; color:#444; line-height:1.5; cursor:pointer; }
+  /* New Compliance Box Styling */
+  .compliance-box{ margin-top:24px; padding:16px; background:#f0f6ff; border:1px solid #bfdbfe; border-radius:12px; }
+  .compliance-title{ font-weight:700; color:#0284c7; font-size:14px; margin-bottom:12px; }
+  .compliance-check{ display:flex; align-items:flex-start; gap:10px; margin-bottom:16px; }
+  .compliance-check input[type="checkbox"]{ width:18px; height:18px; margin-top:2px; cursor:pointer; flex-shrink:0; }
+  .compliance-check label{ margin:0; font-size:13px; font-weight:400; color:#333; line-height:1.5; cursor:pointer; }
+  .compliance-box details{ background:#fff; border:1px solid #e5e7eb; padding:12px; border-radius:8px; margin-bottom:8px; }
+  .compliance-box summary{ font-weight:600; color:#0284c7; font-size:13px; outline:none; cursor:pointer; }
+  .details-content{ font-size:12px; color:#555; line-height:1.6; padding-top:10px; }
+  .details-content p{ margin:0 0 8px 0; }
+  .details-content p:last-child{ margin:0; }
+  .details-content ul{ margin:0 0 8px 0; padding-left:20px; }
+  .details-content a{ color:#0284c7; text-decoration:underline; }
 
   .help-section{ margin-top:20px; font-size:12px; color:#666; border-top:1px dashed #ccc; padding-top:15px; }
   details{ cursor:pointer; background:#f9fafb; padding:10px; border-radius:8px; border:1px solid #eee; margin-top:8px; }
@@ -92,9 +102,36 @@
           </div>
         </div>
 
-        <div class="declaration-box">
-          <input type="checkbox" id="declaration" onchange="updateButtonStates()" />
-          <label for="declaration">I declare that I am currently on campus/at my designated work placement location and the information provided is true and correct. I understand that providing false attendance information is a breach of the Student Code of Conduct.</label>
+        <div class="compliance-box">
+          <div class="compliance-title">Declaration & Compliance</div>
+          
+          <div class="compliance-check">
+            <input type="checkbox" id="declaration">
+            <label for="declaration">I confirm that I am <b>physically present</b> at this campus and attending today's class.</label>
+          </div>
+          
+          <details>
+            <summary>Attendance Policy</summary>
+            <div class="details-content">
+              <p>Charlton Brown requires a <b>minimum of 80% attendance</b> for all enrolled courses.</p>
+              <p>Failure to meet this requirement may result in:</p>
+              <ul>
+                <li>Course progress review</li>
+                <li>Intervention support meeting</li>
+                <li>Risk of course cancellation</li>
+              </ul>
+              <p>If you are unable to attend, please notify your trainer or contact <a href="mailto:studentservices@charltonbrown.edu.au">studentservices@charltonbrown.edu.au</a> in advance.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>ESOS & Visa Compliance (International Students)</summary>
+            <div class="details-content">
+              <p>As an international student, your attendance is monitored under the <b>Education Services for Overseas Students (ESOS) Act 2000</b> and the National Code of Practice.</p>
+              <p>Your attendance is directly linked to your student visa conditions. Consistently low attendance may be reported to the Department of Home Affairs (DHA), which could affect your visa status.</p>
+              <p>For support or concerns, please contact: <a href="mailto:studentservices@charltonbrown.edu.au">studentservices@charltonbrown.edu.au</a></p>
+            </div>
+          </details>
         </div>
 
         <div class="button-row">
@@ -259,7 +296,10 @@ elTrainer.onchange = () => {
   updateButtonStates();
 };
 
-[elId, elName, elCourse].forEach(el => el.oninput = updateButtonStates);
+[elId, elName, elCourse, elDecl].forEach(el => {
+  if(el.type === 'checkbox') el.onchange = updateButtonStates;
+  else el.oninput = updateButtonStates;
+});
 
 async function submitCheckIn(){
   if (new Date().getHours() >= 17) { setMsg("Check-in unavailable after 5 PM.", "warn"); return; }
